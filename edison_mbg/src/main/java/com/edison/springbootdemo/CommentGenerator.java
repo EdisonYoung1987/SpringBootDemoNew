@@ -91,7 +91,36 @@ public class CommentGenerator extends DefaultCommentGenerator {
                                  IntrospectedTable introspectedTable,
                                  IntrospectedColumn introspectedColumn) {
         if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
-            method.addJavaDocLine("/**设置" + introspectedColumn.getRemarks()+" */");
+            method.addJavaDocLine("/**设置" + introspectedColumn.getRemarks()+"*/");
+//            method.addJavaDocLine("*@Param ");
+//            method.addJavaDocLine("*/");
+        }
+    }
+
+    /**将java.lang.String之类的名称简化为String,Tnteger改为int等*/
+    private String trimJavaType(String javaFullType){
+        //先去掉名称前缀
+        int last=javaFullType.lastIndexOf('.');
+        if(last!=-1){
+            String simpleType=javaFullType.substring(last);
+            if("Integer".equals(simpleType)){
+                return "int";
+            }else if("Long".equals(simpleType)){
+                return "long";
+            }else if("Double".equals(simpleType)){
+                return "double";
+            }else if("Float".equals(simpleType)){
+                return "float";
+            }else if("Char".equals(simpleType)){
+                return "char";
+            }else if("Short".equals(simpleType)){
+                return "short";
+            }else if("Byte".equals(simpleType)){
+                return "byte";
+            }
+            return simpleType;
+        }else {
+            return javaFullType;
         }
     }
 }

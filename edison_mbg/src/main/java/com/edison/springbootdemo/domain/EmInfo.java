@@ -42,7 +42,7 @@ public class EmInfo implements Serializable {
         return emId;
     }
 
-    /**设置员工ID */
+    /**设置员工ID*/
     public void setEmId(Integer emId) {
         this.emId = emId;
     }
@@ -52,7 +52,7 @@ public class EmInfo implements Serializable {
         return emName;
     }
 
-    /**设置员工姓名 */
+    /**设置员工姓名*/
     public void setEmName(String emName) {
         this.emName = emName;
     }
@@ -62,7 +62,7 @@ public class EmInfo implements Serializable {
         return emSex;
     }
 
-    /**设置性别 */
+    /**设置性别*/
     public void setEmSex(String emSex) {
         this.emSex = emSex;
     }
@@ -72,7 +72,7 @@ public class EmInfo implements Serializable {
         return emBirthday;
     }
 
-    /**设置出生日期 */
+    /**设置出生日期*/
     public void setEmBirthday(Date emBirthday) {
         this.emBirthday = emBirthday;
     }
@@ -82,7 +82,7 @@ public class EmInfo implements Serializable {
         return emHiredate;
     }
 
-    /**设置入职日期 */
+    /**设置入职日期*/
     public void setEmHiredate(Date emHiredate) {
         this.emHiredate = emHiredate;
     }
@@ -92,7 +92,7 @@ public class EmInfo implements Serializable {
         return emSalary;
     }
 
-    /**设置工资 */
+    /**设置工资*/
     public void setEmSalary(Double emSalary) {
         this.emSalary = emSalary;
     }
