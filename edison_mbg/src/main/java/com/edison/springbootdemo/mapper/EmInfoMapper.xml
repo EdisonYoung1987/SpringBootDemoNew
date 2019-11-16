@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edison.springbootdemo.dao.EmInfoMapper">
+  <resultMap id="BaseResultMap" type="com.edison.springbootdemo.domain.EmInfo">
+    <id column="em_id" jdbcType="INTEGER" property="emId" />
+    <result column="em_name" jdbcType="VARCHAR" property="emName" />
+    <result column="em_sex" jdbcType="VARCHAR" property="emSex" />
+    <result column="em_birthday" jdbcType="DATE" property="emBirthday" />
+    <result column="em_hiredate" jdbcType="DATE" property="emHiredate" />
+    <result column="em_salary" jdbcType="DOUBLE" property="emSalary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    em_id, em_name, em_sex, em_birthday, em_hiredate, em_salary
+  </sql>
+  <select id="selectByExample" parameterType="com.edison.springbootdemo.domain.EmInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from em_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from em_info
+    where em_id = #{emId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from em_info
+    where em_id = #{emId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edison.springbootdemo.domain.EmInfoExample">
+    delete from em_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edison.springbootdemo.domain.EmInfo">
+    insert into em_info (em_id, em_name, em_sex, 
+      em_birthday, em_hiredate, em_salary
+      )
+    values (#{emId,jdbcType=INTEGER}, #{emName,jdbcType=VARCHAR}, #{emSex,jdbcType=VARCHAR}, 
+      #{emBirthday,jdbcType=DATE}, #{emHiredate,jdbcType=DATE}, #{emSalary,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edison.springbootdemo.domain.EmInfo">
+    insert into em_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="emId != null">
+        em_id,
+      </if>
+      <if test="emName != null">
+        em_name,
+      </if>
+      <if test="emSex != null">
+        em_sex,
+      </if>
+      <if test="emBirthday != null">
+        em_birthday,
+      </if>
+      <if test="emHiredate != null">
+        em_hiredate,
+      </if>
+      <if test="emSalary != null">
+        em_salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="emId != null">
+        #{emId,jdbcType=INTEGER},
+      </if>
+      <if test="emName != null">
+        #{emName,jdbcType=VARCHAR},
+      </if>
+      <if test="emSex != null">
+        #{emSex,jdbcType=VARCHAR},
+      </if>
+      <if test="emBirthday != null">
+        #{emBirthday,jdbcType=DATE},
+      </if>
+      <if test="emHiredate != null">
+        #{emHiredate,jdbcType=DATE},
+      </if>
+      <if test="emSalary != null">
+        #{emSalary,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edison.springbootdemo.domain.EmInfoExample" resultType="java.lang.Long">
+    select count(*) from em_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update em_info
+    <set>
+      <if test="record.emId != null">
+        em_id = #{record.emId,jdbcType=INTEGER},
+      </if>
+      <if test="record.emName != null">
+        em_name = #{record.emName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emSex != null">
+        em_sex = #{record.emSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emBirthday != null">
+        em_birthday = #{record.emBirthday,jdbcType=DATE},
+      </if>
+      <if test="record.emHiredate != null">
+        em_hiredate = #{record.emHiredate,jdbcType=DATE},
+      </if>
+      <if test="record.emSalary != null">
+        em_salary = #{record.emSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update em_info
+    set em_id = #{record.emId,jdbcType=INTEGER},
+      em_name = #{record.emName,jdbcType=VARCHAR},
+      em_sex = #{record.emSex,jdbcType=VARCHAR},
+      em_birthday = #{record.emBirthday,jdbcType=DATE},
+      em_hiredate = #{record.emHiredate,jdbcType=DATE},
+      em_salary = #{record.emSalary,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edison.springbootdemo.domain.EmInfo">
+    update em_info
+    <set>
+      <if test="emName != null">
+        em_name = #{emName,jdbcType=VARCHAR},
+      </if>
+      <if test="emSex != null">
+        em_sex = #{emSex,jdbcType=VARCHAR},
+      </if>
+      <if test="emBirthday != null">
+        em_birthday = #{emBirthday,jdbcType=DATE},
+      </if>
+      <if test="emHiredate != null">
+        em_hiredate = #{emHiredate,jdbcType=DATE},
+      </if>
+      <if test="emSalary != null">
+        em_salary = #{emSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where em_id = #{emId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edison.springbootdemo.domain.EmInfo">
+    update em_info
+    set em_name = #{emName,jdbcType=VARCHAR},
+      em_sex = #{emSex,jdbcType=VARCHAR},
+      em_birthday = #{emBirthday,jdbcType=DATE},
+      em_hiredate = #{emHiredate,jdbcType=DATE},
+      em_salary = #{emSalary,jdbcType=DOUBLE}
+    where em_id = #{emId,jdbcType=INTEGER}
+  </update>
+</mapper>
