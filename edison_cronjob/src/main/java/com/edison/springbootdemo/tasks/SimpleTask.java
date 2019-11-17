@@ -1,0 +1,29 @@
+package com.edison.springbootdemo.tasks;
+
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**简单任务*/
+@DisallowConcurrentExecution //禁止并发
+public class SimpleTask extends QuartzJobBean {
+
+    @Override
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        Date date=new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Tak1 do something:"+sdf.format(date));
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        date=new Date();
+        System.out.println("Tak1 do something done:"+sdf.format(date));
+
+    }
+}

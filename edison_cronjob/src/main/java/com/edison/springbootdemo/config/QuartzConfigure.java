@@ -1,0 +1,89 @@
+package com.edison.springbootdemo.config;
+
+import com.edison.springbootdemo.tasks.CronTask;
+import com.edison.springbootdemo.tasks.SimpleTask;
+import org.quartz.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.util.List;
+
+@Configuration
+@PropertySource("classpath:Quartz.properties")
+@ConditionalOnBean(QuartzPropertiesConfig.class) //只有这个类加载了，才会运行这个配置类
+public class QuartzConfigure {
+    @Resource
+    SchedulerFactoryBean schedulerFactoryBean;
+
+    @Autowired(required = false)
+    private List<Trigger> triggers ;
+
+//    @Value("${Cronjob}") //因为加载顺序问题，这里无法注入
+//    String cronjobStr;
+//
+//    @Resource
+//    QuartzPropertiesConfig quartzPropertiesConfig;
+
+    @Bean
+    public QuartzPropertiesConfig quartzPropertiesConfig(){
+        return  new QuartzPropertiesConfig();
+    }
+
+    // 使用jobDetail包装job
+    @Bean
+    public JobDetail myJobDetail() {
+        return JobBuilder.newJob(SimpleTask.class).withIdentity("simpleTask").storeDurably().build();
+    }
+
+    // 把jobDetail注册到trigger上去
+    @Bean
+    public Trigger myJobTrigger() {
+        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
+        scheduleBuilder.withIntervalInSeconds(20);
+//        scheduleBuilder.withRepeatCount(3);
+        scheduleBuilder.repeatForever();
+
+        return TriggerBuilder.newTrigger()
+                .forJob(myJobDetail())
+                .withIdentity("myJobTrigger")
+                .withSchedule(scheduleBuilder)
+                .build();
+    }
+
+    // 使用jobDetail包装job
+    @Bean
+    public JobDetail myCronJobDetail() {
+        return JobBuilder.newJob(CronTask.class).withIdentity("CronTask").storeDurably().build();
+    }
+
+    // 把jobDetail注册到Cron表达式的trigger上去
+    @Bean
+    public Trigger CronJobTrigger(QuartzPropertiesConfig quartzPropertiesConfig) {//这里进行注入
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(quartzPropertiesConfig.cronjobStr);
+        return TriggerBuilder.newTrigger()
+                .forJob(myCronJobDetail())
+                .withIdentity("myCronJobTrigger")
+                .withSchedule(cronScheduleBuilder)
+                .build();
+    }
+
+    @PostConstruct
+    public void quartzScheduler() throws SchedulerException {
+        schedulerFactoryBean.setOverwriteExistingJobs(true);
+        schedulerFactoryBean.setStartupDelay(1);
+//        schedulerFactoryBean.setDataSource(dataSource);
+        if (triggers != null){
+            Scheduler scheduler = schedulerFactoryBean.getScheduler();
+            for (Trigger trigger : triggers){
+                scheduler.rescheduleJob(trigger.getKey(),trigger);
+            }
+        }
+        schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContext");
+    }
+}
