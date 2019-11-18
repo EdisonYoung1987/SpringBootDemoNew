@@ -1,0 +1,2 @@
+#-P 指定了application.properties中的@profileActive@参数，会在打包时进行替换
+mvn clean package -pl edison_cronjob -P dev

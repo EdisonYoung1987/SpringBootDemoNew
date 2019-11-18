@@ -65,7 +65,7 @@ public class QuartzConfigure {
     // 把jobDetail注册到Cron表达式的trigger上去
     @Bean
     public Trigger CronJobTrigger(QuartzPropertiesConfig quartzPropertiesConfig) {//这里进行注入
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(quartzPropertiesConfig.cronjobStr);
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(quartzPropertiesConfig.cronjobStr());
         return TriggerBuilder.newTrigger()
                 .forJob(myCronJobDetail())
                 .withIdentity("myCronJobTrigger")

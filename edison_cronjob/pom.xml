@@ -12,6 +12,7 @@
     <groupId>com.edison</groupId>
     <artifactId>edison_cronjob</artifactId>
     <version>1.0-SNAPSHOT</version>
+<!--    <version>1.0-SNAPSHOT</version>-->
 
     <dependencies>
         <!--整合Quartz实现定时任务-->
@@ -45,8 +46,29 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--打包插件，在Jar中添加Class-Path和Mainain-Class-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!--指定依赖资源路径前缀-->
+                            <classpathPrefix>lib</classpathPrefix>
+                            <mainClass>com.edison.springbootdemo.CronjobApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

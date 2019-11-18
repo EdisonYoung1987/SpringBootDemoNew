@@ -29,6 +29,8 @@
                         password="${spring.datasource.password}">
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
             <property name="nullCatalogMeansCurrent" value="true" />
+            <!--解决ORACLE数据库无法获取注释的问题-->
+            <property name="remarksReporting" value="true"/>
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.edison.springbootdemo.domain" targetProject="C:\Users\Administrator\IdeaProjects\spring-boot-demo\edison_mbg\src\main\java">
