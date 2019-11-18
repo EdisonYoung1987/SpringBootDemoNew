@@ -27,6 +27,7 @@
         <module>edison_mbg</module>
         <module>edison_service</module>
         <module>edison_cronjob</module>
+        <module>edison_gateway</module>
     </modules>
 
 
