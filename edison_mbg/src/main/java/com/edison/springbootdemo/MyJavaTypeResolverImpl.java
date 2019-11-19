@@ -16,13 +16,14 @@ public class MyJavaTypeResolverImpl extends JavaTypeResolverDefaultImpl {
     public void addConfigurationProperties(Properties properties) {
         super.addConfigurationProperties(properties);
         this.smallintToInteger=StringUtility.isTrue(properties.getProperty("smallintToInteger"));
-    }
-
-    public MyJavaTypeResolverImpl(){//将定义为smallint的也改成int？？
-        super();
-        if(this.smallintToInteger) {
+        if(this.smallintToInteger) {//数据库字段如果定义成smallint，则会被当做int处理
             super.typeMap.put(5, new JavaTypeResolverDefaultImpl.JdbcTypeInformation("INTEGER", new FullyQualifiedJavaType(Integer.class.getName())));
         }
+    }
+
+    public MyJavaTypeResolverImpl(){
+        super();
+        System.out.println("smallintToInteger="+smallintToInteger);//此时addConfigurationProperties还没执行，这里是false
     }
 
     @Override
