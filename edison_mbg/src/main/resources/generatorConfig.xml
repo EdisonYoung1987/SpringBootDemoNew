@@ -33,6 +33,11 @@
             <property name="remarksReporting" value="true"/>
         </jdbcConnection>
 
+        <javaTypeResolver type="com.edison.springbootdemo.MyJavaTypeResolverImpl">
+            <property name="forceBigDecimals" value="false"/><!--整型字段是否强制转为bigdecimal-->
+            <property name="smallintToInteger" value="true"/> <!--smallint类型的字段是否也要转为Integer-->
+        </javaTypeResolver>
+
         <javaModelGenerator targetPackage="com.edison.springbootdemo.domain" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
