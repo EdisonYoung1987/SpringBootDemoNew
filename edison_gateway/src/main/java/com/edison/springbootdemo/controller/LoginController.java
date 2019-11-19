@@ -3,7 +3,6 @@ package com.edison.springbootdemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.edison.springbootdemo.Util.ServletUtil;
-import com.edison.springbootdemo.pojo.Em_info;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,8 +33,6 @@ public class LoginController {
     public String login(HttpServletRequest request, HttpServletResponse response){
         //将登录信息json解析成bean对象
         StringBuilder body= ServletUtil.getRequestBody(request);
-        Em_info user=ServletUtil.parseObject(body.toString(),Em_info.class);
-        System.out.println("打印em_info信息："+user.toString());
 
         //将登陆信息json解析出JSONObject对象
         JSONObject jsonObject=ServletUtil.parseJSONObject(body.toString());
@@ -51,7 +48,7 @@ public class LoginController {
             httpsession.invalidate();//需要将旧的session清除
         }
         httpsession=request.getSession();//每次登录生成新的session 注意，如果不调用该方法，则session不会产生
-        httpsession.setAttribute("em_id",user.getEm_id());//session保存用户部分信息
+//        httpsession.setAttribute("em_id",user.getEm_id());//session保存用户部分信息
 
         //登陆之后设置cookie信息,cookie是http域头，可以存放session id
         //Set-Cookie: name=value[; expires=date][; domain=domain][; path=path][; secure]
@@ -70,12 +67,6 @@ public class LoginController {
         if(res>5){
             System.out.println("登录过于频繁！！");
         }
-
-        //查看能否将对象存到redis，然后再反序列化出来
-        redisTemplate.opsForValue().set("USER", JSON.toJSONString(user));//需要转为json字串存储，否则反序列化可能会出问题。
-        Em_info user2=JSON.parseObject((String)redisTemplate.opsForValue().get("USER"),Em_info.class);
-        System.out.println("反序列化后"+user2.toString());
-
         return "LOGINED";
     }
 }

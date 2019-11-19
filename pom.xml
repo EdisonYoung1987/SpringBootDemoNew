@@ -28,12 +28,59 @@
         <module>edison_service</module>
         <module>edison_cronjob</module>
         <module>edison_gateway</module>
+        <module>edison_common</module>
     </modules>
 
 
     <packaging>pom</packaging> <!--这个需要添加-->
 
-    <dependencies>
+    <!--1. dependencyManagement中定义的只是依赖的声明，并不实现引入，因此子项目需要显式的声明需要用的依赖。
+        2. dependencyManagement只是起到一个依赖版本号管理的作用，如定义某个jar包version为1.2.3.RELEASE，则
+           子项目只需要引入jar包，不需要指定版本号
+        3. 使用dependencyManagement的好处就是因为第一点，子项目可以只实际引入自己需要的jar包，而不是在主pom.xml
+           中定义dependencies后，子项目不管要不要该jar包都会引入。-->
+    <dependencyManagement> <!--这里面的依赖包，如果子项目会用到，需要在自己的pom.xml中引入，此处只做版本号管理，不实际引入-->
+        <dependencies>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.12</version>  <!--这个数据库驱动版本需要自己指定-->
+                <scope>runtime</scope>
+            </dependency>
+            <!--这个是一个api展示文档，嵌入到api中，可以通过localhost:8080/swagger-ui.htlm查看-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.7.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.7.0</version>
+            </dependency>
+
+            <!--alibaba 的 json处理框架 性能很高 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.47</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.1.13</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies><!--这些依赖包子项目就不需要再写了，会直接继承-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -43,23 +90,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.12</version>  <!--这个数据库驱动版本需要自己指定-->
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!--整合dubbo到SpringBoot项目，可以实现服务暴露和发现-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -71,27 +105,6 @@
             <artifactId>dubbo</artifactId>
             <version>2.7.3</version>
         </dependency>
-
-        <!--这个是一个api展示文档，嵌入到api中，可以通过localhost:8080/swagger-ui.htlm查看-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-
-        <!--alibaba 的 json处理框架 性能很高 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
-        </dependency>
-
         <!--嵌入redis-->
         <dependency><!--这是redis客户端包，redis客户端有两种lettuce和jedis，这里采用jedis-->
             <groupId>org.springframework.boot</groupId>
@@ -113,12 +126,6 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.1.13</version>
-        </dependency>
     </dependencies>
 
     <profiles>
@@ -139,5 +146,32 @@
         </profile>
     </profiles>
 
+    <!--这里是指定update和插件的仓库，这样打包的时候也会从该仓库下载jar包-->
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots><!--false:SNAPSHOT版本的jar包不去这里寻找和下载-->
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

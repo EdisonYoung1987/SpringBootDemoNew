@@ -1,4 +1,4 @@
-package com.edison.springbootdemo.property;
+package com.edison.springbootdemo.properties;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
