@@ -33,16 +33,16 @@
             <property name="remarksReporting" value="true"/>
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.edison.springbootdemo.domain" targetProject="C:\Users\Administrator\IdeaProjects\spring-boot-demo\edison_mbg\src\main\java">
+        <javaModelGenerator targetPackage="com.edison.springbootdemo.domain" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.edison.springbootdemo.mapper" targetProject="C:\Users\Administrator\IdeaProjects\spring-boot-demo\edison_mbg\src\main\java">
+        <sqlMapGenerator targetPackage="com.edison.springbootdemo.mapper" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.edison.springbootdemo.dao"
-                             targetProject="C:\Users\Administrator\IdeaProjects\spring-boot-demo\edison_mbg\src\main\java">
+                             targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
