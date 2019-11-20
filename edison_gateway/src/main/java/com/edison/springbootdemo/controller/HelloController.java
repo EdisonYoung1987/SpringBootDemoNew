@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class HelloController {
     @RequestMapping("/hello")
     public String hello(HttpServletRequest request,HttpServletResponse response){
-       /* //请求使用的协议和版本
+        //请求使用的协议和版本
         System.out.println("Protocol: " + request.getProtocol());
         //返回当前所使用的协议：http  ftp等
         System.out.println("Scheme: " + request.getScheme());
@@ -61,7 +61,6 @@ public class HelloController {
         System.out.println("Cookie : " + request.getHeader("Cookie"));
         System.out.println("Created : " + request.getSession().getCreationTime());
         System.out.println("LastAccessed : " + request.getSession().getLastAccessedTime());
-*/
         try {
             PrintWriter writer= response.getWriter();
             writer.write("QSSSS");
