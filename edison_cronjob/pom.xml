@@ -13,6 +13,14 @@
     <artifactId>edison_cronjob</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <java.version>1.8</java.version>
+        <maven.compler.source>1.8</maven.compler.source>
+        <maven.compler.target>1.8</maven.compler.target>
+    </properties>
+
     <dependencies>
         <!--整合Quartz实现定时任务-->
         <dependency>
@@ -42,12 +50,7 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                    <excludeTransitive>false</excludeTransitive>
-                    <stripVersion>false</stripVersion>
-                </configuration>
+                <artifactId>maven-dependency-plugin</artifactId><!--依赖包的拷贝-->
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -71,9 +74,11 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <!--指定添加项目中使用的外部jar的classpath项-->
                             <addClasspath>true</addClasspath>
                             <!--指定依赖资源路径前缀-->
                             <classpathPrefix>lib</classpathPrefix>
+                            <!--指定主类-->
                             <mainClass>com.edison.springbootdemo.CronjobApp</mainClass>
                         </manifest>
                     </archive>
