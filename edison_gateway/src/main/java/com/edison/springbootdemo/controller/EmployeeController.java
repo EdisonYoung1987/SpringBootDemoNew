@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.rpc.RpcException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +29,19 @@ public class EmployeeController {
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long",paramType = "path"),
             @ApiImplicitParam(name = "user", value = "用户实体user", required = true, dataType = "User")
     })
-    @RequestMapping(value = "/findAll.do",method =RequestMethod.GET)
+    @RequestMapping(value = "/findAll",method =RequestMethod.GET)
     public Response findAll() throws Exception{
         Response response=new Response();
-        List<Map<String,Object>> em_infoList = employeeSvcs.findAll();
+
+        List<Map<String,Object>> em_infoList = null;
+        try {
+            em_infoList = employeeSvcs.findAll();
+        } catch (RpcException e) {
+            System.out.println("远程服务调用失败，检查是否启动该远程服务");
+            response.setStatusCode(ResponseConstant.REMOTE_SERVICE_UNAVAILABLE.getCode());
+            response.setRetMessage(ResponseConstant.REMOTE_SERVICE_UNAVAILABLE.getMessage());
+            return response;
+        }
 
         response.setStatusCode(ResponseConstant.SUCC_CODE.getCode());
         response.setRetMessage(ResponseConstant.SUCC_CODE.getMessage());

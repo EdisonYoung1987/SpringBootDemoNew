@@ -71,6 +71,31 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.2.47</version>
             </dependency>
+
+            <!--dubbo 连接框架curator Curator 2.x.x兼容Zookeeper的3.4.x和3.5.x，Curator 3.x.x只兼容Zookeeper 3.5.x-->
+            <dependency><!--zk高级接口封装-->
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>4.1.0</version>
+            </dependency>
+
+            <dependency><!--zk接口-->
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>4.1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.5.5</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

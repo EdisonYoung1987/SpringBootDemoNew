@@ -1,6 +1,7 @@
 package com.edison.springbootdemo.constant;
 
 public enum ResponseConstant {
+    REMOTE_SERVICE_UNAVAILABLE(888,"远程服务不可达"),
     SUCC_CODE(0,"成功");
 
     int code;

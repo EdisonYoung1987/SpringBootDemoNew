@@ -63,7 +63,8 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
                 System.out.println("加密后的响应报文："+rspString);
 
                 //这里需要重新设置contentlength，否则客户端接收信息不完整。
-                httpServletResponse.setContentLength(rspString.length());
+                //这里要注意 响应包含中文时，String.length()是不准确的
+                httpServletResponse.setContentLength(rspString.getBytes("UTF-8").length);
                 writeResponse(httpServletResponse,rspString);
             } catch (IOException e) {
                 e.printStackTrace();
