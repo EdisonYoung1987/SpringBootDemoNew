@@ -52,8 +52,13 @@
         </javaClientGenerator>
 
         <!--生成全部表tableName设为%-->
-        <table tableName="%">
+        <!--<table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
+        <table tableName="EM_INFO" domainObjectName="EmInfo"
+                                    enableCountByExample="false"
+                                    enableDeleteByExample="false"
+                                    enableUpdateByExample="false"
+                                    enableSelectByExample="false"></table>
     </context>
 </generatorConfiguration>

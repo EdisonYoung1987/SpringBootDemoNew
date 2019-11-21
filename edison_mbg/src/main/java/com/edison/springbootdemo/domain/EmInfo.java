@@ -1,17 +1,22 @@
 package com.edison.springbootdemo.domain;
 
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+/**员工信息表实体类*/
+@Mapper
+@Repository
 public class EmInfo implements Serializable {
     /**
-     * 员工ID
+     * 员工号
      */
     private Integer emId;
 
     /**
-     * 员工姓名
+     * 名称
      */
     private String emName;
 
@@ -21,7 +26,7 @@ public class EmInfo implements Serializable {
     private String emSex;
 
     /**
-     * 出生日期
+     * 生日
      */
     private Date emBirthday;
 
@@ -31,28 +36,28 @@ public class EmInfo implements Serializable {
     private Date emHiredate;
 
     /**
-     * 工资
+     * 薪资
      */
-    private Double emSalary;
+    private BigDecimal emSalary;
 
     private static final long serialVersionUID = 1L;
 
-    /**获取员工ID */
+    /**获取员工号 */
     public Integer getEmId() {
         return emId;
     }
 
-    /**设置员工ID*/
+    /**设置员工号*/
     public void setEmId(Integer emId) {
         this.emId = emId;
     }
 
-    /**获取员工姓名 */
+    /**获取名称 */
     public String getEmName() {
         return emName;
     }
 
-    /**设置员工姓名*/
+    /**设置名称*/
     public void setEmName(String emName) {
         this.emName = emName;
     }
@@ -67,12 +72,12 @@ public class EmInfo implements Serializable {
         this.emSex = emSex;
     }
 
-    /**获取出生日期 */
+    /**获取生日 */
     public Date getEmBirthday() {
         return emBirthday;
     }
 
-    /**设置出生日期*/
+    /**设置生日*/
     public void setEmBirthday(Date emBirthday) {
         this.emBirthday = emBirthday;
     }
@@ -87,13 +92,13 @@ public class EmInfo implements Serializable {
         this.emHiredate = emHiredate;
     }
 
-    /**获取工资 */
-    public Double getEmSalary() {
+    /**获取薪资 */
+    public BigDecimal getEmSalary() {
         return emSalary;
     }
 
-    /**设置工资*/
-    public void setEmSalary(Double emSalary) {
+    /**设置薪资*/
+    public void setEmSalary(BigDecimal emSalary) {
         this.emSalary = emSalary;
     }
 

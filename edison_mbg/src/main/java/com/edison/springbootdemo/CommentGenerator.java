@@ -2,14 +2,12 @@ package com.edison.springbootdemo;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.dom.java.CompilationUnit;
-import org.mybatis.generator.api.dom.java.Field;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * 自定义注释生成器
@@ -19,6 +17,8 @@ public class CommentGenerator extends DefaultCommentGenerator {
     private boolean addRemarkComments = true;
     private static final String EXAMPLE_SUFFIX="Example";
 //    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME="io.swagger.annotations.ApiModelProperty";
+    private static final String COMPONENT_CLASS_NAME="org.springframework.stereotype.Repository";
+    private static final String MAPPER_CLASS_NAME="org.apache.ibatis.annotations.Mapper";
 
     /**
      * 设置用户配置的参数
@@ -48,21 +48,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
         }
     }
 
-    /**
-     * 给model的字段添加注释
-     */
-    private void addFieldJavaDoc(Field field, String remarks) {
-        //文档注释开始
-        field.addJavaDocLine("/**");
-        //获取数据库字段的备注信息
-        String[] remarkLines = remarks.split(System.getProperty("line.separator"));
-        for(String remarkLine:remarkLines){
-            field.addJavaDocLine(" * "+remarkLine);
-        }
-//        addJavadocTag(field, false); //这个会添加一行 @mbg.generated的注释，完全没必要
-        field.addJavaDocLine(" */");
-    }
-
+    /**给实体类文件import一些类*/
     @Override
     public void addJavaFileComment(CompilationUnit compilationUnit) {
         super.addJavaFileComment(compilationUnit);
@@ -70,7 +56,10 @@ public class CommentGenerator extends DefaultCommentGenerator {
         if(!compilationUnit.isJavaInterface()&&!compilationUnit.getType().getFullyQualifiedName().contains(EXAMPLE_SUFFIX)){
 //            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
         }
+        compilationUnit.addImportedType(new FullyQualifiedJavaType(MAPPER_CLASS_NAME));
+        compilationUnit.addImportedType(new FullyQualifiedJavaType(COMPONENT_CLASS_NAME));
     }
+
     /**给get和set方法设置中文说明*/
     @Override
     public void addGetterComment(Method method,
@@ -84,6 +73,25 @@ public class CommentGenerator extends DefaultCommentGenerator {
 
 
         }
+    }
+
+    /**给实体类添加注释和注解*/
+    @Override
+    public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        topLevelClass.addJavaDocLine("/**"+introspectedTable.getRemarks()+"实体类*/");
+        topLevelClass.addJavaDocLine("@Mapper");
+        topLevelClass.addJavaDocLine("@Repository");
+    }
+    private void addFieldJavaDoc(Field field, String remarks) {
+        //文档注释开始
+        field.addJavaDocLine("/**");
+        //获取数据库字段的备注信息
+        String[] remarkLines = remarks.split(System.getProperty("line.separator"));
+        for(String remarkLine:remarkLines){
+            field.addJavaDocLine(" * "+remarkLine);
+        }
+//        addJavadocTag(field, false); //这个会添加一行 @mbg.generated的注释，完全没必要
+        field.addJavaDocLine(" */");
     }
 
     @Override
