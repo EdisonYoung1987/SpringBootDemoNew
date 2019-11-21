@@ -29,7 +29,7 @@ public class EmployeeController {
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long",paramType = "path"),
             @ApiImplicitParam(name = "user", value = "用户实体user", required = true, dataType = "User")
     })
-    @RequestMapping(value = "/findAll",method =RequestMethod.GET)
+    @RequestMapping(value = "/findall",method =RequestMethod.GET)
     public Response findAll() throws Exception{
         Response response=new Response();
 
@@ -49,7 +49,7 @@ public class EmployeeController {
         return response;
     }
 
-    @RequestMapping(value = "lockOne")
+    @RequestMapping(value = "lockone")
     public void lockOne(){
         employeeSvcs.lockOne("1");
     }
