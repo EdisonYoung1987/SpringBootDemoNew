@@ -48,6 +48,27 @@
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
         </dependency>
+        <!--嵌入redis-->
+        <dependency><!--这是redis客户端包，redis客户端有两种lettuce和jedis，这里采用jedis-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--采用redis实现session，解决session共享的问题
+            通过对mvc配置类添加@EnableRedisHttpSession实现-->
+        <dependency><!--这个是操作将session缓存到redis的包-->
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
+        <!--整合dubbo到SpringBoot项目，可以实现服务暴露和发现-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
