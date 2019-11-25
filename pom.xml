@@ -51,6 +51,10 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-starter-tomcat</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -62,6 +66,22 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${springboot.version}</version>
+                <exclusions>
+                    <exclusion><!--排除JDK在1.4版本中引入的Java原生日志框架-->
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency><!-- 引入log4j2依赖 -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency><!--log4j2异步日志需要的东西-->
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.4.2</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
