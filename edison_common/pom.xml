@@ -14,6 +14,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <!--嵌入redis-->
         <dependency><!--这是redis客户端包，redis客户端有两种lettuce和jedis，这里采用jedis-->
             <groupId>org.springframework.boot</groupId>
