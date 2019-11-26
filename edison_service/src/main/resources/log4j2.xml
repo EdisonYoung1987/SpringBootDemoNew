@@ -112,11 +112,12 @@
             <appender-ref ref="RollingFileError"/>
         </Logger>
 
+        <!--AsyncLogger结合disruptor高性能队列实现对日志的异步输出-->
         <AsyncLogger name="asyncLogger" level="INFO" includeLocation="false" additivity="false">
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>
             <appender-ref ref="RollingFileError"/>
-            <appender-ref ref="Console"/>
+<!--            <appender-ref ref="Console"/>-->
         </AsyncLogger>
 
         <root level="WARN">
