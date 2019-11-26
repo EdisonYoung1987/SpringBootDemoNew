@@ -15,6 +15,9 @@ public class ServiceAppTest {
 
     @Test
     public void test(){
+        System.out.println("test start");
         employeeMicrosvcs.findAll();
+        System.out.println("test end");
+
     }
 }
