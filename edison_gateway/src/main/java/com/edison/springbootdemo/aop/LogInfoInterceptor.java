@@ -1,5 +1,7 @@
 package com.edison.springbootdemo.aop;
 
+import com.edison.springbootdemo.context.GlobalContext;
+import com.edison.springbootdemo.utils.SeqnoGenerator;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -12,6 +14,10 @@ import javax.servlet.http.HttpSession;
 public class LogInfoInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //生成全局流水号
+        GlobalContext.getContext().setReqId(SeqnoGenerator.getGlobalReqId());
+        System.out.println("当前请求全局流水号："+GlobalContext.getContext().getReqId());
+
         System.out.println("过滤器TestInterceptor 前处理:"+request.getRequestURI()+"?"+request.getQueryString());
         System.out.println("Content Length: " + request.getContentLength());
         //获取请求方式获取请求方式(GET与POST为主,也会有PUT、DELETE、INPUT)

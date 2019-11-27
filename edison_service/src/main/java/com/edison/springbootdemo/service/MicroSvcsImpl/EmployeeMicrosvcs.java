@@ -1,6 +1,7 @@
 package com.edison.springbootdemo.service.MicroSvcsImpl;
 
 import com.edison.springbootdemo.Imicrosvcs.I_EmployeeSvcs;
+import com.edison.springbootdemo.context.GlobalContext;
 import com.edison.springbootdemo.domain.EmInfo;
 import com.edison.springbootdemo.mapper.IEm_infoMapper;
 import org.apache.dubbo.config.annotation.Service;
@@ -13,7 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Service
+/**雇员微服务<p>*/
+// 负载均衡策略可选：random, roundrobin, leastactive
+@Service(loadbalance = "roundrobin")
 @Component
 public class EmployeeMicrosvcs implements I_EmployeeSvcs {
     Logger logger= LoggerFactory.getLogger(EmployeeMicrosvcs.class);
@@ -22,6 +25,7 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
 
     @Override
     public List<Map<String, Object>> findAll() {
+        logger.info("从网关通过dubbo传递过来的全局流水号：{}", GlobalContext.getContext().getReqId());
         logger.info("开始查询");
         List<Map<String,Object>> emInfos=iEm_infoMapper.findAll();
         for(Map<String,Object> emInfo: emInfos){

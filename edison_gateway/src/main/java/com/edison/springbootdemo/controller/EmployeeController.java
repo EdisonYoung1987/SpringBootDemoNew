@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @Reference //dubbo远程调用
+    @Reference(loadbalance = "random") //dubbo远程调用
     private I_EmployeeSvcs employeeSvcs;
 
     @ApiOperation(value = "查询所有的雇员信息", notes="根据url的id来指定更新用户信息")
@@ -37,9 +37,11 @@ public class EmployeeController {
         try {
             em_infoList = employeeSvcs.findAll();
         } catch (RpcException e) {
+
             System.out.println("远程服务调用失败，检查是否启动该远程服务");
             response.setStatusCode(ResponseConstant.REMOTE_SERVICE_UNAVAILABLE.getCode());
             response.setRetMessage(ResponseConstant.REMOTE_SERVICE_UNAVAILABLE.getMessage());
+            e.printStackTrace();
             return response;
         }
 

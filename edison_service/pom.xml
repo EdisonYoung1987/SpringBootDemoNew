@@ -77,4 +77,45 @@
         </dependency>
     </dependencies>
 
+    <!--打包-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId><!--依赖包的拷贝-->
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--打包插件，在Jar中添加Class-Path和Mainain-Class-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!--指定添加项目中使用的外部jar的classpath项-->
+                            <addClasspath>true</addClasspath>
+                            <!--指定依赖资源路径前缀-->
+                            <classpathPrefix>lib</classpathPrefix>
+                            <!--指定主类-->
+                            <mainClass>com.edison.springbootdemo.ServiceApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
