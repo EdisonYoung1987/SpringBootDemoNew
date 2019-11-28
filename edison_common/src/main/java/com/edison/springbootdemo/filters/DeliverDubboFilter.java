@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
  * @Activate(group =“provider”, value =“xxx”) 只对提供方激活，group可选"provider"或"consumer"
  * </>*/
 
-@Activate(group = {"provider","comsumer"},order = 0) //表示provider和consumer都要调用该扩展
+@Activate(group = {"provider","consumer"},order = 0) //表示provider和consumer都要调用该扩展
 //@Activate //无条件激活
 public class DeliverDubboFilter implements Filter {
     private static final Logger logger= LoggerFactory.getLogger(DeliverDubboFilter.class);

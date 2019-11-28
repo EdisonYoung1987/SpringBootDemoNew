@@ -34,8 +34,8 @@
         <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
 <!--        <RollingFile name="RollingFileInfo"-->
         <RollingRandomAccessFile name="RollingFileInfo"
-                     fileName="${FILE_PATH}/${PROJECT_NAME}/info.log"
-                     filePattern="${FILE_PATH}/${PROJECT_NAME}/his/info-%d{yyyy-MM-dd}_%i.log"
+                     fileName="${FILE_PATH}/${PROJECT_NAME}/logs/info.log"
+                     filePattern="${FILE_PATH}/${PROJECT_NAME}/logs/his/info-%d{yyyy-MM-dd}_%i.log"
                      immediateFlush="false"><!--filePattern表示压缩文件名称？？-->
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <!--onMatch="ACCEPT" 匹配该级别及以上 "DENY" 不匹配该级别及以上 "NEUTRAL" 该级别级以上的由下一个filter处理，如果是最后一个filter，则匹配该级别及以上-->
@@ -57,8 +57,8 @@
 
         <!-- 这个会打印出所有的warn及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingRandomAccessFile name="RollingFileWarn"
-                     fileName="${FILE_PATH}/${PROJECT_NAME}/warn.log"
-                     filePattern="${FILE_PATH}/${PROJECT_NAME}/his/warn-%d{yyyy-MM-dd}_%i.log"
+                     fileName="${FILE_PATH}/${PROJECT_NAME}/logs/warn.log"
+                     filePattern="${FILE_PATH}/${PROJECT_NAME}/logs/his/warn-%d{yyyy-MM-dd}_%i.log"
                      immediateFlush="false">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
@@ -74,8 +74,8 @@
 
         <!-- 这个会打印出所有的error及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingRandomAccessFile name="RollingFileError"
-                     fileName="${FILE_PATH}/${PROJECT_NAME}/error.log"
-                     filePattern="${FILE_PATH}/${PROJECT_NAME}/his/error-%d{yyyy-MM-dd}_%i.log"
+                     fileName="${FILE_PATH}/${PROJECT_NAME}/logs/error.log"
+                     filePattern="${FILE_PATH}/${PROJECT_NAME}/logs/his/error-%d{yyyy-MM-dd}_%i.log"
                      immediateFlush="false">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
