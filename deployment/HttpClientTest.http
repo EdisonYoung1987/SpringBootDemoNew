@@ -7,10 +7,14 @@
 
 GET 127.0.0.1:8080/employee/findAll
 
-###大小写
-GET 192.168.43.198:8080/employee/findall
-
 ###SIT
 GET 192.168.77.130:8080/employee/findAll
+
+###
+POST 192.168.77.130:8080/login
+
+{
+    "id":"122"
+}
 
 ###
