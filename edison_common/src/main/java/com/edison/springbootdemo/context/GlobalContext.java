@@ -1,12 +1,18 @@
 package com.edison.springbootdemo.context;
+
+import com.alibaba.ttl.TransmittableThreadLocal;
+
 /**一个全局的公共类，用来保存一些公共信息*/
 public class GlobalContext {
     public static final String REQ_ID_KEY="reqId";
 
-    //农商行使用的是alibaba.ttl.TransmittableThreadLocal
-    //TODO 正常来说，这个GlobalContext应该是一个请求一个，而不是一个线程一个，肯定还是要改一下
+    //ThreadLocal不能在线程之间传递
+    //InheritableThreadLocal可继承在父子线程之间传递，但不使用线程池
+    // alibaba.ttl.TransmittableThreadLocal可用于线程池传递信息，像此处的GlobalContext如果想要在
+    //异步任务或者线程池中传递，需要用TransmittableTheadLocal，不过线程池需要用
     //InternalThreadLocal是什么，dubbo的RpcContext用的这个
-    public static final ThreadLocal<GlobalContext> context=new ThreadLocal<GlobalContext>(){
+//    public static final ThreadLocal<GlobalContext> context=new ThreadLocal<GlobalContext>(){
+    public static final TransmittableThreadLocal<GlobalContext> context=new TransmittableThreadLocal<GlobalContext>(){
         @Override
         protected GlobalContext initialValue() {
             return new GlobalContext();
