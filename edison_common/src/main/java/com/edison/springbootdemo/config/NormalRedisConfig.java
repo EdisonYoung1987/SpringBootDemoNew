@@ -26,9 +26,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class NormalRedisConfig {
 
-    @Primary
     @Bean("normalRedisTemplate")
-    @SuppressWarnings("all") //没这个 会报错normalConnection不能注入。。
+//    @SuppressWarnings("all") //没这个 会报错normalConnection不能注入。。
     //RedisConnectionFactory有两个实现类：JedisConnectionFactory和LettuceConnectionFactory
     public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory normalConnection){
         RedisTemplate<String,Object> redisTemplate=new RedisTemplate<>();

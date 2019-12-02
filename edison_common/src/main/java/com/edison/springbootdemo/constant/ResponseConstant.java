@@ -1,8 +1,9 @@
 package com.edison.springbootdemo.constant;
 
 public enum ResponseConstant {
+    SUCC_CODE(0,"成功"),
     REMOTE_SERVICE_UNAVAILABLE(888,"远程服务不可达"),
-    SUCC_CODE(0,"成功");
+    SYSTEM_ERR_CODE(9999,"系统错误");
 
     int code;
     String message;

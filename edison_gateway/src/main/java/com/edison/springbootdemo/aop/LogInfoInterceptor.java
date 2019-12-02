@@ -2,20 +2,27 @@ package com.edison.springbootdemo.aop;
 
 import com.edison.springbootdemo.context.GlobalContext;
 import com.edison.springbootdemo.utils.SeqnoGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**一个打印请求信息的拦截器*/
+@Component
 public class LogInfoInterceptor extends HandlerInterceptorAdapter {
+    private SeqnoGenerator seqnoGenerator=new SeqnoGenerator();
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //生成全局流水号
-        GlobalContext.getContext().setReqId(SeqnoGenerator.getGlobalReqId());
+        System.out.println("seqnoGenerator="+seqnoGenerator);
+        GlobalContext.getContext().setReqId(seqnoGenerator.getGlobalReqId());
         System.out.println("当前请求全局流水号："+GlobalContext.getContext().getReqId());
 
         System.out.println("过滤器TestInterceptor 前处理:"+request.getRequestURI()+"?"+request.getQueryString());

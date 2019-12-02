@@ -120,7 +120,7 @@
 <!--            <appender-ref ref="Console"/>-->
         </AsyncLogger>
 
-        <root level="WARN">
+        <root level="INFO">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>
