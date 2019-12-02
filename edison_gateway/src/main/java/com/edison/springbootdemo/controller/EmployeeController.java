@@ -56,11 +56,12 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "lockone")
-    public void lockOne() throws Exception{
+    public Response lockOne() throws Exception{
         for(int i=0;i<10;i++) {
             System.out.println(Thread.currentThread().getName()+" 获取流水号:" + seqnoGenerator.getSeqNoFromReis());
         }
-        throw new Exception("对方不想和你说话并抛出了一个异常");
+//        return Response.error(new Exception("对方不想和你说话并抛出了一个异常"));
+        throw  new Exception("对方不想和你说话并抛出了一个异常");
     }
 
 }

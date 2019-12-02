@@ -37,7 +37,8 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration interceptorRegistration=registry.addInterceptor(new LogInfoInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/**/error");
+                .excludePathPatterns("/**/error")
+                ;
         if(swagger){
             interceptorRegistration.excludePathPatterns("/csrf","/swagger**","/webjars/**","/api-docs**","/api-docs**/**","/swagger**/**");
         }

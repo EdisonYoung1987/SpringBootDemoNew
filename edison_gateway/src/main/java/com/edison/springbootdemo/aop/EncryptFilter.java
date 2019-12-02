@@ -21,20 +21,20 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     private static Set<String> excludedUrlsSet=new HashSet<>(64);
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("执行EncryptFilter开始...");
+        System.out.println("EncryptFilter:执行EncryptFilter开始...");
         try {
             StringBuilder sb=ServletUtil.getRequestBody(httpServletRequest);
             String bodyToDecrypt=sb.toString();
-            System.out.println("解密前body="+bodyToDecrypt);
+            System.out.println("EncryptFilter:解密前body="+bodyToDecrypt);
 
             //进行解密 比如登录时采用RSA,key为私钥，其他情况为AES,key为sessionId
             String bodyDecrypted=bodyToDecrypt;
             if(isNeedDecrypt(httpServletRequest)){
-                System.out.println("需要解密");
+                System.out.println("EncryptFilter:需要解密");
                 bodyDecrypted=ServletUtil.stringDecypt(bodyToDecrypt,"xxxrr");
-                System.out.println("解密后内容:"+bodyDecrypted);
+                System.out.println("EncryptFilter:解密后内容:"+bodyDecrypted);
             }else{
-                System.out.println("不需要解密");
+                System.out.println("EncryptFilter:不需要解密");
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
                 return;
             }
@@ -45,7 +45,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
             filterChain.doFilter(requestWrapper,responseWrapper);
 
             //处理返回内容，检查是否需要加密
-            System.out.println("这里开始进行响应处理");
+            System.out.println("EncryptFilter:这里开始进行响应处理");
             handleResponse(httpServletRequest,httpServletResponse,responseWrapper);
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,11 +56,11 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     private void handleResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, WrapperedResponse responseWrapper) {
         String rspString="ERROR";
         if(isNeedDecrypt(httpServletRequest)){
-            System.out.println("响应报文进行加密");
+            System.out.println("EncryptFilter:响应报文进行加密");
             try {
                 byte[] rspData=responseWrapper.getResponseData();
                 rspString=ServletUtil.stringEecypt(new String(rspData,"UTF-8"),"ENCRYPTED:");
-                System.out.println("加密后的响应报文："+rspString);
+                System.out.println("EncryptFilter:加密后的响应报文："+rspString);
 
                 //这里需要重新设置contentlength，否则客户端接收信息不完整。
                 //这里要注意 响应包含中文时，String.length()是不准确的
@@ -70,7 +70,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
                 e.printStackTrace();
             }
         }else{
-            System.out.println("响应报文不需要加密");
+            System.out.println("EncryptFilter:响应报文不需要加密");
             writeResponse(httpServletResponse,responseWrapper);
         }
 
@@ -112,7 +112,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     public void run(String... args) throws Exception {
         //这里可以对该Filter做额外初始化，比如获取加解密用到的私钥和公钥
         //还可以获取本地配置的是否需要加解密的uri
-        System.out.println("执行EncryptFilter初始化...");
+        System.out.println("EncryptFilter:执行EncryptFilter初始化run()完成");
         excludedUrlsSet.add("xxx");
     }
 }
