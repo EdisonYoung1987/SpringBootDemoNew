@@ -15,6 +15,8 @@ import java.util.concurrent.locks.LockSupport;
  * 个人感觉这样做虽然更方便，当是锁粒度过大-容易超时，除非将要加锁的片段拆分出去-会形成太多代码碎片</>*/
 @Component
 public class DistributeLocker {
+    //等待锁的sleep时间
+    private static final long WAIT_LOCK_TIME=10L;
     @Resource(name = "normalRedisTemplate")
     RedisTemplate<String,Object> redisTemplate;
 
@@ -51,7 +53,7 @@ public class DistributeLocker {
             long expireTime=redisTemplate.getExpire(lockKey,TimeUnit.SECONDS);
             System.out.println("当前lock ttl还有："+expireTime);
             try {
-                Thread.sleep(expireTime*1000); //如果expireTime为0，则快速进入争抢
+                Thread.sleep(WAIT_LOCK_TIME); //不能以锁存活时间为sleep时间，因为获得锁的应用基本上都会很快释放锁。
             } catch (InterruptedException e) { }
         }
         if(Thread.currentThread().isInterrupted()) {//说明等待锁期间被interrupt过，之前中断信号被捕获，重新发起一次
