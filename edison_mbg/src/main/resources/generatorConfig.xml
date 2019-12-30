@@ -16,7 +16,14 @@
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--生成mapper.xml时覆盖原文件-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
-        <commentGenerator type="com.edison.springbootdemo.CommentGenerator">
+        <!-- Mapper注解插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.MapperAnnotationPlugin">
+            <!-- @Mapper 默认开启 -->
+            <property name="@Mapper" value="true"/>
+            <!-- @Repository 默认关闭，开启后解决IDEA工具@Autowired报错 -->
+            <property name="@Repository" value="true"/>
+        </plugin>
+        <commentGenerator type="com.edison.springbootdemo.plugins.CommentGenerator">
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
@@ -33,7 +40,7 @@
             <property name="remarksReporting" value="true"/>
         </jdbcConnection>
 
-        <javaTypeResolver type="com.edison.springbootdemo.MyJavaTypeResolverImpl">
+        <javaTypeResolver type="com.edison.springbootdemo.plugins.MyJavaTypeResolverImpl">
             <property name="forceBigDecimals" value="false"/><!--整型字段是否强制转为bigdecimal-->
             <property name="smallintToInteger" value="true"/> <!--smallint类型的字段是否也要转为Integer-->
         </javaTypeResolver>

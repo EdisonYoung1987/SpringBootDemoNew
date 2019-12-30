@@ -13,7 +13,7 @@
     <artifactId>edison_gateway</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-<!--    <packaging>war</packaging>-->
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -28,6 +28,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!--这个是一个api展示文档，嵌入到api中，可以通过localhost:8080/swagger-ui.htlm查看-->
         <dependency>

@@ -4,6 +4,8 @@ import com.edison.springbootdemo.domain.EmInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+@Mapper
+@Repository
 public interface EmInfoMapper {
     int deleteByPrimaryKey(Integer emId);
 

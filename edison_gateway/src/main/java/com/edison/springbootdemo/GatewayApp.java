@@ -5,11 +5,12 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDubbo
-public class GatewayApp {
+public class GatewayApp  {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx= SpringApplication.run(GatewayApp.class);
         /*

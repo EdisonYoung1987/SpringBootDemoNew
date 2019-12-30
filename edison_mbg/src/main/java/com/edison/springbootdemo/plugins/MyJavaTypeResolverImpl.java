@@ -1,4 +1,4 @@
-package com.edison.springbootdemo;
+package com.edison.springbootdemo.plugins;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;

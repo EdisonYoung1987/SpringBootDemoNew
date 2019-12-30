@@ -3,12 +3,8 @@ package com.edison.springbootdemo.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 /**员工信息表实体类*/
-@Mapper
-@Repository
 public class EmInfo implements Serializable {
     /**
      * 员工号

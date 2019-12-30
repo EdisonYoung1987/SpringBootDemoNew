@@ -1,4 +1,4 @@
-package com.edison.springbootdemo;
+package com.edison.springbootdemo.plugins;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -17,8 +17,8 @@ public class CommentGenerator extends DefaultCommentGenerator {
     private boolean addRemarkComments = true;
     private static final String EXAMPLE_SUFFIX="Example";
 //    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME="io.swagger.annotations.ApiModelProperty";
-    private static final String COMPONENT_CLASS_NAME="org.springframework.stereotype.Repository";
-    private static final String MAPPER_CLASS_NAME="org.apache.ibatis.annotations.Mapper";
+//    private static final String COMPONENT_CLASS_NAME="org.springframework.stereotype.Repository";
+//    private static final String MAPPER_CLASS_NAME="org.apache.ibatis.annotations.Mapper";
 
     /**
      * 设置用户配置的参数
@@ -56,8 +56,8 @@ public class CommentGenerator extends DefaultCommentGenerator {
         if(!compilationUnit.isJavaInterface()&&!compilationUnit.getType().getFullyQualifiedName().contains(EXAMPLE_SUFFIX)){
 //            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
         }
-        compilationUnit.addImportedType(new FullyQualifiedJavaType(MAPPER_CLASS_NAME));
-        compilationUnit.addImportedType(new FullyQualifiedJavaType(COMPONENT_CLASS_NAME));
+//        compilationUnit.addImportedType(new FullyQualifiedJavaType(MAPPER_CLASS_NAME));
+//        compilationUnit.addImportedType(new FullyQualifiedJavaType(COMPONENT_CLASS_NAME));
     }
 
     /**给get和set方法设置中文说明*/
@@ -79,8 +79,8 @@ public class CommentGenerator extends DefaultCommentGenerator {
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         topLevelClass.addJavaDocLine("/**"+introspectedTable.getRemarks()+"实体类*/");
-        topLevelClass.addJavaDocLine("@Mapper");
-        topLevelClass.addJavaDocLine("@Repository");
+//        topLevelClass.addJavaDocLine("@Mapper");
+//        topLevelClass.addJavaDocLine("@Repository");
     }
     private void addFieldJavaDoc(Field field, String remarks) {
         //文档注释开始
