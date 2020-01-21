@@ -22,6 +22,6 @@ public class ServiceApp {
     }
     @PostConstruct
     public void init(){
-        logger.info("执行@postConstruct");
+        logger.info("执行app.@postConstruct");
     }
 }

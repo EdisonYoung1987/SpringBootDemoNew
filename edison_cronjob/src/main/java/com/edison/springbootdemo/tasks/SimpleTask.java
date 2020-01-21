@@ -18,7 +18,7 @@ public class SimpleTask extends QuartzJobBean {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("Tak1 do something:"+sdf.format(date));
         try {
-            Thread.sleep(20000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
