@@ -1,11 +1,14 @@
 package com.edison.springbootdemo.service.MicroSvcsImpl;
 
+import com.alibaba.csp.sentinel.EntryType;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.edison.springbootdemo.Imicrosvcs.I_EmployeeSvcs;
 import com.edison.springbootdemo.config.async.AsyncExecutor;
 import com.edison.springbootdemo.context.GlobalContext;
 import com.edison.springbootdemo.domain.EmInfo;
 import com.edison.springbootdemo.mapper.IEm_infoMapper;
 import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.rpc.filter.TpsLimitFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,7 @@ import java.util.Set;
 
 /**雇员微服务<p>*/
 // 负载均衡策略可选：random, roundrobin, leastactive
-@Service(loadbalance = "roundrobin")
+@Service(loadbalance = "roundrobin",filter = {"Tps"},parameters = {"tps","1"})
 @Component
 public class EmployeeMicrosvcs implements I_EmployeeSvcs {
     Logger logger= LoggerFactory.getLogger(EmployeeMicrosvcs.class);
@@ -37,6 +40,11 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
                 logger.info(key+"--"+emInfo.get(key));
             }
         }
+        try {
+            Thread.sleep(20000);
+        }catch (Exception e){
+
+        }
 
         logger.info("执行异步任务");
         //execute方法被注解了@Async，所以execute方法实际上是将runnable提供给了@Async指定的线程池执行
@@ -53,6 +61,7 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
     }
 
     @Override
+    @SentinelResource(value="lockOne",entryType= EntryType.IN)
     public void lockOne(String s) {
 
     }

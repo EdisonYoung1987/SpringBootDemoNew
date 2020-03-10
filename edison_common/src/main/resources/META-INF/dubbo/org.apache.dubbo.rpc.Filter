@@ -1,1 +1,2 @@
+Tps=com.edison.springbootdemo.filters.MyTpsLimitFilter
 DeliverDubbo=com.edison.springbootdemo.filters.DeliverDubboFilter
