@@ -7,6 +7,7 @@ import com.edison.springbootdemo.config.async.AsyncExecutor;
 import com.edison.springbootdemo.context.GlobalContext;
 import com.edison.springbootdemo.domain.EmInfo;
 import com.edison.springbootdemo.mapper.IEm_infoMapper;
+import com.edison.springbootdemo.utils.ExceptionUtil;
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.rpc.filter.TpsLimitFilter;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import java.util.Set;
 
 /**雇员微服务<p>*/
 // 负载均衡策略可选：random, roundrobin, leastactive
-@Service(loadbalance = "roundrobin",filter = {"Tps"},parameters = {"tps","1"})
+@Service(loadbalance = "roundrobin",filter = {"Tps"},parameters = {"tps","100"})
 @Component
 public class EmployeeMicrosvcs implements I_EmployeeSvcs {
     Logger logger= LoggerFactory.getLogger(EmployeeMicrosvcs.class);
@@ -30,6 +31,8 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
     AsyncExecutor asyncExecutor;
 
     @Override
+    @SentinelResource(value="findAll",entryType = EntryType.IN,
+                 blockHandlerClass = ExceptionUtil.class,blockHandler = "handleException")
     public List<Map<String, Object>> findAll() {
         logger.info("从网关通过dubbo传递过来的全局流水号：{}", GlobalContext.getContext().getReqId());
         logger.info("开始查询");

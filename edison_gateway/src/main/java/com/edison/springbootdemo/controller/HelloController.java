@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 public class HelloController {
     @RequestMapping("/hello")
     public String hello(HttpServletRequest request,HttpServletResponse response){
+        System.out.println(request.getCharacterEncoding());
         //请求使用的协议和版本
         System.out.println("Protocol: " + request.getProtocol());
         //返回当前所使用的协议：http  ftp等
