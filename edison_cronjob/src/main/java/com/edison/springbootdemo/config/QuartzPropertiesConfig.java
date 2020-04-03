@@ -5,6 +5,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 //@Component
+@Deprecated
 @PropertySource("classpath:Quartz.properties")
 public class QuartzPropertiesConfig {
     @Value("${Cronjob}") //因为加载顺序问题，这里无法注入

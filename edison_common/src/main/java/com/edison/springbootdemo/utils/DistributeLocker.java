@@ -35,10 +35,11 @@ public class DistributeLocker {
 
         //存在则设置key
         Boolean res=redisTemplate.opsForValue().setIfAbsent(lockKey,uuid,lockSeconds, TimeUnit.SECONDS);
-        if(res!=null && res==true)
+        if(res!=null && res==true) {
             return uuid;
-        else
+        }else {
             return null;
+        }
     }
 
     /**加锁--不支持重入：<p>

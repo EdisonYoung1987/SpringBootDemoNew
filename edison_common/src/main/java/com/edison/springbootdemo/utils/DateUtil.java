@@ -13,8 +13,9 @@ public class DateUtil {
 
     public static String getFormatDateString(Date date,String format){
         String res=null;
-        if(date==null)
+        if(date==null) {
             return null;
+        }
         if(StringUtils.isEmpty(format)){
             format=FORMAT_DATE_DEFAULT;
         }

@@ -31,10 +31,12 @@ public class WrapperedResponse extends HttpServletResponseWrapper {
 
     @Override
     public void flushBuffer() throws IOException {
-        if(out!=null)
+        if(out!=null) {
             out.flush();
-        if(writer!=null)
+        }
+        if(writer!=null) {
             writer.flush();
+        }
     }
 
     @Override
