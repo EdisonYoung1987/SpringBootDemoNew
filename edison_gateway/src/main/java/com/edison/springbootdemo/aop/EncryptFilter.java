@@ -1,8 +1,10 @@
 package com.edison.springbootdemo.aop;
 
+import com.alibaba.fastjson.JSON;
 import com.edison.springbootdemo.Util.ServletUtil;
 import com.edison.springbootdemo.Util.WrapperedRequest;
 import com.edison.springbootdemo.Util.WrapperedResponse;
+import com.edison.springbootdemo.domain.Response;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -47,9 +49,17 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
             //处理返回内容，检查是否需要加密
             System.out.println("EncryptFilter:这里开始进行响应处理");
             handleResponse(httpServletRequest,httpServletResponse,responseWrapper);
-        } catch (Exception e) {
+        } catch (Exception e) {//这里是不是就相当于拦截了所有的异常信息？？
+            System.out.println("EncryptFilter拦截了异常！");
             e.printStackTrace();
-            System.err.println("解密body失败");
+            httpServletResponse.setCharacterEncoding("UTF-8");
+            httpServletResponse.setContentType("application/json; charset=utf-8");
+            //具体操作
+            PrintWriter writer = httpServletResponse.getWriter();
+            writer.write(JSON.toJSONString(Response.error(e)));
+            //
+            writer.flush();
+            writer.close();
         }
     }
 
