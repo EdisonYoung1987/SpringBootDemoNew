@@ -5,6 +5,7 @@ import com.edison.springbootdemo.Util.ServletUtil;
 import com.edison.springbootdemo.Util.WrapperedRequest;
 import com.edison.springbootdemo.Util.WrapperedResponse;
 import com.edison.springbootdemo.domain.Response;
+import com.edison.springbootdemo.domain.RspException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,6 +24,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     private static Set<String> excludedUrlsSet=new HashSet<>(64);
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println(httpServletRequest.getSession().getId());
         System.out.println("EncryptFilter:执行EncryptFilter开始...");
         try {
             StringBuilder sb=ServletUtil.getRequestBody(httpServletRequest);
