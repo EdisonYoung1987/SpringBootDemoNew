@@ -18,7 +18,6 @@ import java.util.List;
 
 @Configuration
 @PropertySource("classpath:Quartz.properties")
-@ConditionalOnBean(QuartzPropertiesConfig.class) //只有这个类加载了，才会运行这个配置类
 public class QuartzConfigure implements CommandLineRunner {
     @Resource
     SchedulerFactoryBean schedulerFactoryBean;
@@ -31,14 +30,6 @@ public class QuartzConfigure implements CommandLineRunner {
 
     @Value("${simpletask.interval}")
     String interval;
-//
-//    @Resource
-//    QuartzPropertiesConfig quartzPropertiesConfig;
-
-    /*@Bean
-    public QuartzPropertiesConfig quartzPropertiesConfig(){
-        return  new QuartzPropertiesConfig();
-    }*/
 
     // 使用jobDetail包装job
     @Bean
