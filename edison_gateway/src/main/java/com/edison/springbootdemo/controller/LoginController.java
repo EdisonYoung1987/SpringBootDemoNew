@@ -3,6 +3,8 @@ package com.edison.springbootdemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.edison.springbootdemo.Util.ServletUtil;
+import com.edison.springbootdemo.constant.ResponseConstant;
+import com.edison.springbootdemo.domain.RspException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,12 +32,15 @@ public class LoginController {
 
     /**登录controller，为了测试cookie，看是否能保存登录信息，假定该请求体包含用户和密码信息*/
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(HttpServletRequest request, HttpServletResponse response){
+    public String login(HttpServletRequest request, HttpServletResponse response) throws Exception{
         //将登录信息json解析成bean对象
         StringBuilder body= ServletUtil.getRequestBody(request);
 
         //将登陆信息json解析出JSONObject对象
         JSONObject jsonObject=ServletUtil.parseJSONObject(body.toString());
+        if(jsonObject==null){
+            throw new RspException(ResponseConstant.LOGIN_WRONG_PARAMETERS);
+        }
         Set<String> keys= jsonObject.keySet();
         System.out.println("JSONObject:");
         for(String key:keys) {

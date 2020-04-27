@@ -173,7 +173,8 @@
                 <version>2.7.3</version>
             </dependency>
             <!--嵌入redis-->
-            <dependency><!--这是redis客户端包，redis客户端有两种lettuce和jedis，这里采用jedis-->
+            <dependency><!--这是redis客户端包，redis客户端有两种lettuce和jedis，
+                        data-redis默认采用lettuce：采用netty效率更高且线程安全-->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${springboot.version}</version>
@@ -184,6 +185,11 @@
                 <groupId>org.springframework.session</groupId>
                 <artifactId>spring-session-data-redis</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <dependency><!--lettuce采用连接池spring.redis.lettuce.pool.xxx的话，需要引入这个,包含一个通用连接池配置GenericObjectPoolConfig-->
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>2.6.1</version>
             </dependency>
 
             <!--阿里提供的可在线程池传递threadlocal数据的库-->

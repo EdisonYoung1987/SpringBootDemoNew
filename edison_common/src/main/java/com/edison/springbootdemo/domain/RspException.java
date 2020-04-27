@@ -3,11 +3,15 @@ package com.edison.springbootdemo.domain;
 import com.edison.springbootdemo.constant.ResponseConstant;
 
 public class RspException extends Exception {
-    public RspException(ResponseConstant response){
-        super(response.getMessage());
+    ResponseConstant responseCode;
+
+    public RspException(ResponseConstant responseConstant){
+        super(responseConstant.getMessage());
+        this.responseCode=responseConstant;
     }
-    @Override
-    public String getMessage() {
-        return super.getMessage();
+
+    ResponseConstant getResponseCode(){
+        return this.responseCode;
     }
+
 }

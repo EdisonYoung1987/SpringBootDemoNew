@@ -45,8 +45,14 @@ public class Response implements Serializable {
     //构造异常信息
     public static Response error(Exception e){
         Response response=new Response();
-        response.setStatusCode(ResponseConstant.SYSTEM_ERR_CODE.getCode());
-        response.setRetMessage(ResponseConstant.SYSTEM_ERR_CODE.getMessage()+":"+e.getMessage());
+        if(e instanceof RspException) {
+            ResponseConstant code=((RspException) e).getResponseCode();
+            response.setStatusCode(code.getCode());
+            response.setRetMessage(code.getMessage());
+        }else{
+            response.setStatusCode(ResponseConstant.SYSTEM_ERR_CODE.getCode());
+            response.setRetMessage(ResponseConstant.SYSTEM_ERR_CODE.getMessage() + ":" + e.getMessage());
+        }
         return response;
     }
 }

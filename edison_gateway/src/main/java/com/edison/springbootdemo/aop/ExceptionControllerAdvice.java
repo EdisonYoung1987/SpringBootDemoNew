@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 public class ExceptionControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Object errorHandler(HttpServletResponse response, Exception e,Exception ex) throws  Exception {
+        e.printStackTrace();
         System.out.println("ControllerAdvice:controller异常被拦截");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

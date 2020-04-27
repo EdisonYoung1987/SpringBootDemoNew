@@ -58,7 +58,9 @@
             <artifactId>zookeeper</artifactId>
         </dependency>
         <!--嵌入redis-->
-        <dependency><!--这是redis客户端包，redis客户端有两种lettuce和jedis，这里采用jedis-->
+        <dependency>
+            <!--这是redis客户端包，redis客户端有两种lettuce和jedis，
+                        data-redis默认采用lettuce：采用netty效率更高且线程安全-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
@@ -67,6 +69,10 @@
         <dependency><!--这个是操作将session缓存到redis的包-->
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+        <dependency><!--lettuce采用连接池spring.redis.lettuce.pool.xxx的话，需要引入这个-->
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
 
         <!--整合dubbo到SpringBoot项目，可以实现服务暴露和发现-->
