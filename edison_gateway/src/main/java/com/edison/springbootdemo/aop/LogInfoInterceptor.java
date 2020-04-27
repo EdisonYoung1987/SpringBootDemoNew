@@ -23,14 +23,14 @@ public class LogInfoInterceptor extends HandlerInterceptorAdapter {
         //生成全局流水号
 //        System.out.println("Interceptor: seqnoGenerator="+seqnoGenerator);
         GlobalContext.getContext().setReqId(seqnoGenerator.getGlobalReqId());
-        System.out.println("Interceptor-preHandle: 当前请求全局流水号："+GlobalContext.getContext().getReqId());
+//        System.out.println("Interceptor-preHandle: 当前请求全局流水号："+GlobalContext.getContext().getReqId());
 
-        System.out.println("Interceptor-preHandle: 过滤器TestInterceptor 前处理:"+request.getRequestURI()+"?"+request.getQueryString());
-        System.out.println("Interceptor-preHandle: Content Length: " + request.getContentLength());
+//        System.out.println("Interceptor-preHandle: 过滤器TestInterceptor 前处理:"+request.getRequestURI()+"?"+request.getQueryString());
+//        System.out.println("Interceptor-preHandle: Content Length: " + request.getContentLength());
         //获取请求方式获取请求方式(GET与POST为主,也会有PUT、DELETE、INPUT)
-        System.out.println("Interceptor-preHandle: HTTP Method: " + request.getMethod());
-        System.out.println("Interceptor-preHandle: contextPath= " +request.getContextPath());
-        System.out.println("Interceptor-preHandle: 收到的请求："+request.getRequestURI()+"?"+request.getQueryString());
+//        System.out.println("Interceptor-preHandle: HTTP Method: " + request.getMethod());
+//        System.out.println("Interceptor-preHandle: contextPath= " +request.getContextPath());
+//        System.out.println("Interceptor-preHandle: 收到的请求："+request.getRequestURI()+"?"+request.getQueryString());
         Cookie[] cookies=request.getCookies();
         if(cookies!=null) {
             for (Cookie cookie : cookies) {
@@ -41,7 +41,7 @@ public class LogInfoInterceptor extends HandlerInterceptorAdapter {
         if(session!=null){
             System.out.println("Interceptor-preHandle: session id="+session.getId());
         }else{
-            System.out.println("Interceptor-preHandle: no session");
+//            System.out.println("Interceptor-preHandle: no session");
         }
         boolean result=super.preHandle(request, response, handler);
         return result;//这里返回false的话，请求将不会到达controller，所以Interceptor一般用于权限验证等。
@@ -49,7 +49,7 @@ public class LogInfoInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("Interceptor-postHandle: 过滤器TestInterceptor 后处理"+request.getRequestURI()+"?"+request.getQueryString());
+//        System.out.println("Interceptor-postHandle: 过滤器TestInterceptor 后处理"+request.getRequestURI()+"?"+request.getQueryString());
         super.postHandle(request, response, handler, modelAndView);
     }
 

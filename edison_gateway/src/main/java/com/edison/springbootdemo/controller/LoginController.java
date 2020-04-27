@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.edison.springbootdemo.Util.ServletUtil;
 import com.edison.springbootdemo.constant.ResponseConstant;
+import com.edison.springbootdemo.domain.Response;
 import com.edison.springbootdemo.domain.RspException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -32,7 +35,7 @@ public class LoginController {
 
     /**登录controller，为了测试cookie，看是否能保存登录信息，假定该请求体包含用户和密码信息*/
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Response login(HttpServletRequest request, HttpServletResponse response) throws Exception{
         //将登录信息json解析成bean对象
         StringBuilder body= ServletUtil.getRequestBody(request);
 
@@ -61,7 +64,7 @@ public class LoginController {
         Cookie cookie=new Cookie("sid",httpsession.getId());//将session_id设置到cookie中
 //        cookie.setDomain("");
         cookie.setMaxAge(120);
-//        cookie.setPath("/*");
+        cookie.setPath("/*");
         response.addCookie(cookie);
 
         //登记redis登录信息 注意redisTemplate需要进行配置，否则String类型的key前面会有乱码，value也是一样的。
@@ -72,6 +75,21 @@ public class LoginController {
         if(res>5){
             System.out.println("登录过于频繁！！");
         }
-        return "LOGINED";
+
+        Map<String,String> map=new HashMap<>();
+        map.put("_pulicKey","123123safdasfas");//假装返回了公钥。
+        return Response.success(map);
+    }
+
+    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    public Response logout(HttpServletRequest request) {
+        HttpSession session=request.getSession(false);
+        if(session!=null){
+            session.invalidate();
+            System.out.println("用户已登出");
+        }else{
+            System.out.println("session为空，用户未登录");
+        }
+        return Response.success(null);
     }
 }

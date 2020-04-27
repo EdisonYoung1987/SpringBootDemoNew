@@ -24,21 +24,20 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     private static Set<String> excludedUrlsSet=new HashSet<>(64);
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(httpServletRequest.getSession().getId());
         System.out.println("EncryptFilter:执行EncryptFilter开始...");
         try {
             StringBuilder sb=ServletUtil.getRequestBody(httpServletRequest);
             String bodyToDecrypt=sb.toString();
-            System.out.println("EncryptFilter:解密前body="+bodyToDecrypt);
+//            System.out.println("EncryptFilter:解密前body="+bodyToDecrypt);
 
             //进行解密 比如登录时采用RSA,key为私钥，其他情况为AES,key为sessionId
             String bodyDecrypted=bodyToDecrypt;
             if(isNeedDecrypt(httpServletRequest)){
-                System.out.println("EncryptFilter:需要解密");
+//                System.out.println("EncryptFilter:需要解密");
                 bodyDecrypted=ServletUtil.stringDecypt(bodyToDecrypt,"xxxrr");
-                System.out.println("EncryptFilter:解密后内容:"+bodyDecrypted);
+//                System.out.println("EncryptFilter:解密后内容:"+bodyDecrypted);
             }else{
-                System.out.println("EncryptFilter:不需要解密");
+//                System.out.println("EncryptFilter:不需要解密");
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
                 return;
             }
@@ -49,7 +48,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
             filterChain.doFilter(requestWrapper,responseWrapper);
 
             //处理返回内容，检查是否需要加密
-            System.out.println("EncryptFilter:这里开始进行响应处理");
+//            System.out.println("EncryptFilter:这里开始进行响应处理");
             handleResponse(httpServletRequest,httpServletResponse,responseWrapper);
         } catch (Exception e) {//这里是不是就相当于拦截了所有的异常信息？？
             System.out.println("EncryptFilter拦截了异常！");

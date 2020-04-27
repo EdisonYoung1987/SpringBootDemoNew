@@ -43,11 +43,6 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
                 logger.info(key+"--"+emInfo.get(key));
             }
         }
-        try {
-            Thread.sleep(20000);
-        }catch (Exception e){
-
-        }
 
         logger.info("执行异步任务");
         //execute方法被注解了@Async，所以execute方法实际上是将runnable提供给了@Async指定的线程池执行
@@ -55,7 +50,7 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
             @Override
             public void run() {
                 //看全局流水号能否传递到线程池
-                logger.info(Thread.currentThread().getName() + ": 全局流水号：" + GlobalContext.getContext().getReqId());
+//                logger.info(Thread.currentThread().getName() + ": 全局流水号：" + GlobalContext.getContext().getReqId());
             }
         });
 

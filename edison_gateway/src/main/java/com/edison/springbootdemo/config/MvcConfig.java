@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.util.AntPathMatcher;
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**配置interceptor和Filter*/
 @EnableRedisHttpSession(
-        maxInactiveIntervalInSeconds = 60*20,//20分钟 session过期时间 tomcat会覆盖
+        maxInactiveIntervalInSeconds = 60,//20分钟 session过期时间 tomcat会覆盖
         redisNamespace = "EDISON.SESSION",
         redisFlushMode = RedisFlushMode.IMMEDIATE //
 )
@@ -24,6 +25,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
     @Value("${swagger2.enable}")
     private boolean swagger;
+
+    /**配置session存储序列化*/
+    @Bean(name = "springSessionDefaultRedisSerializer")
+    public RedisSerializer springSessionDefaultRedisSerializer() {
+        return RedisSerializer.json();
+    }
 
     /**uri忽略大小写，但是意义不大，毕竟页面都是前端传递过来的，都是约定好的，又不需要用户自己输入*/
     @Override

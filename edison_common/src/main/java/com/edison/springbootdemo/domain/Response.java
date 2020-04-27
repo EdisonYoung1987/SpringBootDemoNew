@@ -1,5 +1,6 @@
 package com.edison.springbootdemo.domain;
 
+import com.alibaba.fastjson.JSON;
 import com.edison.springbootdemo.constant.ResponseConstant;
 
 import java.io.Serializable;
@@ -54,5 +55,18 @@ public class Response implements Serializable {
             response.setRetMessage(ResponseConstant.SYSTEM_ERR_CODE.getMessage() + ":" + e.getMessage());
         }
         return response;
+    }
+
+    public static Response success(Object data){
+        Response response=new Response();
+        response.setStatusCode(ResponseConstant.SUCC_CODE.getCode());
+        response.setRetMessage(ResponseConstant.SUCC_CODE.getMessage());
+        response.setData(data);
+        return response;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this); //这样，每个Controller返回的Response对象就被转为了json字符串。
     }
 }
