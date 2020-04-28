@@ -3,6 +3,7 @@ package com.edison.springbootdemo.aop;
 import com.edison.springbootdemo.context.GlobalContext;
 import com.edison.springbootdemo.utils.SeqnoGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpSession;
 @Component
 public class LogInfoInterceptor extends HandlerInterceptorAdapter {
     private SeqnoGenerator seqnoGenerator=new SeqnoGenerator();
+
+    @Resource(name = "normalRedisTemplate")
+    RedisTemplate<String,Object> redisTemplate;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -43,6 +47,9 @@ public class LogInfoInterceptor extends HandlerInterceptorAdapter {
         }else{
 //            System.out.println("Interceptor-preHandle: no session");
         }
+
+        //检查是否过于频繁请求TODO
+
         boolean result=super.preHandle(request, response, handler);
         return result;//这里返回false的话，请求将不会到达controller，所以Interceptor一般用于权限验证等。
     }

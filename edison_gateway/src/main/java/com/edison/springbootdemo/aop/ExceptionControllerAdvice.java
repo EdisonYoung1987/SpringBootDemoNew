@@ -2,6 +2,7 @@ package com.edison.springbootdemo.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.edison.springbootdemo.domain.Response;
+import com.edison.springbootdemo.domain.RspException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,9 @@ import java.io.PrintWriter;
 public class ExceptionControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Object errorHandler(HttpServletResponse response, Exception e,Exception ex) throws  Exception {
-        e.printStackTrace();
+        if(!(e instanceof RspException)){
+            e.printStackTrace();
+        }
         System.out.println("ControllerAdvice:controller异常被拦截");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

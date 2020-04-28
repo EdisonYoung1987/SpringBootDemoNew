@@ -74,7 +74,9 @@ public class LoginController {
         long res=redisTemplate.opsForValue().increment(key);//访问次数加一
         if(res>5){
             System.out.println("登录过于频繁！！");
-        }
+        }//todo 这里需要转移到拦截器里面去合适一些，拦截所有的请求频繁
+
+        //todo 需要保存一个UserCache到session中，包含token信息。
 
         Map<String,String> map=new HashMap<>();
         map.put("_pulicKey","123123safdasfas");//假装返回了公钥。

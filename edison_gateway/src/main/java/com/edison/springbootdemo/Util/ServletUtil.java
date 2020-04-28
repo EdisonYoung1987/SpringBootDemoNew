@@ -5,24 +5,41 @@ import com.alibaba.fastjson.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
+import java.io.InputStream;
 
 /**Servlet工具类*/
 public class ServletUtil {
     /**获取请求体*/
     public static StringBuilder getRequestBody(HttpServletRequest request){
+        StringBuilder sb=new StringBuilder(128);
         try{
             BufferedReader reader=request.getReader();
-            StringBuilder sb=new StringBuilder(128);
             char[] buffer=new char[10240];
             int count=0;
-            while((count=reader.read(buffer))>0){
+            while((count=reader.read(buffer))>=0){
                 sb.append(buffer,0,count);
             }
             return sb;
         }catch(Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new StringBuilder(0);
+    }
+    /**获取请求体*/
+    public static StringBuilder getRequestBody2(HttpServletRequest request){
+        StringBuilder sb=new StringBuilder(128);
+        try{
+            InputStream is=request.getInputStream();
+            byte[] buffer=new byte[1024];
+            int count=0;
+            while((count=is.read(buffer))>=0){
+                sb.append(new String(buffer,0,count,"utf-8"));
+            }
+            return sb;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new StringBuilder(0);
     }
 
     /**假装对请求体进行解密*/
