@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.edison.springbootdemo.Util.ServletUtil;
 import com.edison.springbootdemo.constant.ResponseConstant;
+import com.edison.springbootdemo.constant.SystemConstant;
 import com.edison.springbootdemo.domain.Response;
 import com.edison.springbootdemo.domain.RspException;
+import com.edison.springbootdemo.domain.UserCache;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +24,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.edison.springbootdemo.constant.SystemConstant.USERCACHE_KEY;
+
+/**登录流程：
+ * 1. 客户端请求/pk获取公钥pk
+ * 2. 客户端使用公钥pk加密AES密钥请求/login,服务端使用私钥解密后缓存AES密钥
+ * 3. 客户端其他请求都采用AES密钥加解密*/
 @RestController
 public class LoginController {
     /**-@Autowired 这个是按照类型来注入，当有多个同类型的bean存在spring容器中时，需要配合@Qualifier(name="userDao1")
@@ -32,6 +40,14 @@ public class LoginController {
 //    @Autowired
     @Resource(name = "normalRedisTemplate") //考虑到定制化后又多个RedisTemplate实现类对象，每个都制定名称
     private RedisTemplate<String,Object> redisTemplate;
+
+    @RequestMapping(value = "/pk",method = RequestMethod.POST)
+    public Response getPk(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map<String,String> map=new HashMap<>(2);
+        map.put("pk","adfdas234asddfasdfasdasfasf");//假装是公钥
+
+        return Response.success(map);
+    }
 
     /**登录controller，为了测试cookie，看是否能保存登录信息，假定该请求体包含用户和密码信息*/
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -44,11 +60,6 @@ public class LoginController {
         if(jsonObject==null){
             throw new RspException(ResponseConstant.LOGIN_WRONG_PARAMETERS);
         }
-        Set<String> keys= jsonObject.keySet();
-        System.out.println("JSONObject:");
-        for(String key:keys) {
-            System.out.println(key+":"+jsonObject.get(key));
-        }
 
         //对Session进行处理
         HttpSession httpsession=request.getSession(false);
@@ -56,7 +67,6 @@ public class LoginController {
             httpsession.invalidate();//需要将旧的session清除
         }
         httpsession=request.getSession();//每次登录生成新的session 注意，如果不调用该方法，则session不会产生
-//        httpsession.setAttribute("em_id",user.getEm_id());//session保存用户部分信息
 
         //登陆之后设置cookie信息,cookie是http域头，可以存放session id
         //Set-Cookie: name=value[; expires=date][; domain=domain][; path=path][; secure]
@@ -67,20 +77,20 @@ public class LoginController {
         cookie.setPath("/*");
         response.addCookie(cookie);
 
-        //登记redis登录信息 注意redisTemplate需要进行配置，否则String类型的key前面会有乱码，value也是一样的。
-        Date date=new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
-        String key=request.getRemoteHost()+"_"+sdf.format(date);
-        long res=redisTemplate.opsForValue().increment(key);//访问次数加一
-        if(res>5){
-            System.out.println("登录过于频繁！！");
-        }//todo 这里需要转移到拦截器里面去合适一些，拦截所有的请求频繁
+        //保存用户信息以及AES密钥到session中。
+        String userId=jsonObject.getString("userId");//用户id
+        String aesKey=jsonObject.getString("_secret");//秘钥--登录之后采用对称加解密
+        if(userId==null||aesKey==null){
+            throw new RspException(ResponseConstant.LOGIN_WRONG_PARAMETERS);
+        }
+        UserCache userCache=new UserCache();
+        userCache.setUserId(userId);
+        //其他信息需要调用用户微服务进行查询获取，可以无则插入
+        httpsession.setAttribute(SystemConstant.USERCACHE_KEY,userCache);
 
-        //todo 需要保存一个UserCache到session中，包含token信息。
+        httpsession.setAttribute(SystemConstant.AES_KEY,aesKey);
 
-        Map<String,String> map=new HashMap<>();
-        map.put("_pulicKey","123123safdasfas");//假装返回了公钥。
-        return Response.success(map);
+        return Response.success(null);
     }
 
     @RequestMapping(value = "/logout",method = RequestMethod.POST)

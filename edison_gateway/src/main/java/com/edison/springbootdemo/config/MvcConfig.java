@@ -1,7 +1,7 @@
 package com.edison.springbootdemo.config;
 
 import com.edison.springbootdemo.aop.EncryptFilter;
-import com.edison.springbootdemo.aop.LogInfoInterceptor;
+import com.edison.springbootdemo.aop.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        InterceptorRegistration interceptorRegistration=registry.addInterceptor(new LogInfoInterceptor())
+        InterceptorRegistration interceptorRegistration=registry.addInterceptor(new AuthInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/error")
                 ;

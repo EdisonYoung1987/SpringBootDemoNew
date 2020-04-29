@@ -1,8 +1,14 @@
 package com.edison.springbootdemo.aop;
 
+import com.edison.springbootdemo.constant.ResponseConstant;
+import com.edison.springbootdemo.constant.SystemConstant;
 import com.edison.springbootdemo.context.GlobalContext;
+import com.edison.springbootdemo.domain.Response;
+import com.edison.springbootdemo.domain.RspException;
+import com.edison.springbootdemo.domain.UserCache;
 import com.edison.springbootdemo.utils.SeqnoGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,10 +19,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**一个打印请求信息的拦截器*/
 @Component
-public class LogInfoInterceptor extends HandlerInterceptorAdapter {
+public class AuthInterceptor extends BaseInterceptor  {
     private SeqnoGenerator seqnoGenerator=new SeqnoGenerator();
 
     @Resource(name = "normalRedisTemplate")
@@ -44,11 +53,15 @@ public class LogInfoInterceptor extends HandlerInterceptorAdapter {
         HttpSession session=request.getSession(false);
         if(session!=null){
             System.out.println("Interceptor-preHandle: session id="+session.getId());
-        }else{
-//            System.out.println("Interceptor-preHandle: no session");
         }
 
-        //检查是否过于频繁请求TODO
+        //检查是否过于频繁请求
+        boolean isFrequent=checkFrequency(request);
+        if(isFrequent){
+            //将错误信息返回
+            BaseInterceptor.returnJson(response,new Response(ResponseConstant.REQUEST_TO_FREQUENT));
+            return false;//直接拦截请求
+        }
 
         boolean result=super.preHandle(request, response, handler);
         return result;//这里返回false的话，请求将不会到达controller，所以Interceptor一般用于权限验证等。
@@ -58,6 +71,31 @@ public class LogInfoInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 //        System.out.println("Interceptor-postHandle: 过滤器TestInterceptor 后处理"+request.getRequestURI()+"?"+request.getQueryString());
         super.postHandle(request, response, handler, modelAndView);
+    }
+
+    /**过于频繁访问的规则：
+     * 同一个ip或用户在30秒内访问次数超过60次，则限制访问120秒*/
+    private boolean checkFrequency(HttpServletRequest request) throws Exception{
+        String key=request.getRemoteHost();
+
+        HttpSession session=request.getSession(false);
+        if(session!=null){//未登录 游客访问 通过ip限制
+            Object userCache=session.getAttribute(SystemConstant.USERCACHE_KEY);
+            if(userCache!=null){
+                key=((UserCache)userCache).getUserId();
+            }
+        }
+        key="auth_fr_"+key;
+        System.out.println(key+" "+redisTemplate);
+        long times=redisTemplate.opsForValue().increment(key);//访问次数加一
+        if(times>15){//60比较合适 15用于测试
+            redisTemplate.expire(key,120, TimeUnit.SECONDS);//这样被限制之后每次访问都会重新计时限制时间
+            return true;
+        }
+        if(times==1){
+            redisTemplate.expire(key,30, TimeUnit.SECONDS);
+        }
+        return false;
     }
 
    /* @Override

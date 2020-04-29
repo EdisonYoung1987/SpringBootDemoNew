@@ -124,6 +124,6 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
         //这里可以对该Filter做额外初始化，比如获取加解密用到的私钥和公钥
         //还可以获取本地配置的是否需要加解密的uri
         System.out.println("EncryptFilter:执行EncryptFilter初始化run()完成");
-        excludedUrlsSet.add("xxx");
+        excludedUrlsSet.add("/pk");//获取密钥的请求url不需要加解密
     }
 }

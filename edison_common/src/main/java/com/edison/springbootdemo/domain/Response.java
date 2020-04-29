@@ -35,6 +35,13 @@ public class Response implements Serializable {
         this.data = data;
     }
 
+    public Response(ResponseConstant responseConstant){
+        this.statusCode=responseConstant.getCode();
+        this.retMessage=responseConstant.getMessage();
+    }
+    public Response( ){
+    }
+
     //构造错误信息
     public static Response error(int errCd,String message){
         Response response=new Response();
