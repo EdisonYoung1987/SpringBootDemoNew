@@ -40,9 +40,14 @@ public class MvcConfig implements WebMvcConfigurer {
         configurer.setPathMatcher(matcher);
     }
 
+    @Bean
+    public AuthInterceptor authInterceptor(){
+        return new AuthInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        InterceptorRegistration interceptorRegistration=registry.addInterceptor(new AuthInterceptor())
+        InterceptorRegistration interceptorRegistration=registry.addInterceptor(authInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/error")
                 ;

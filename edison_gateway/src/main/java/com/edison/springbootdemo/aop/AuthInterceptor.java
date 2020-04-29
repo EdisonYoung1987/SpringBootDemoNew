@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**一个打印请求信息的拦截器*/
-@Component
 public class AuthInterceptor extends BaseInterceptor  {
     @Autowired
     SeqnoGenerator seqnoGenerator;
