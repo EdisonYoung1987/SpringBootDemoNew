@@ -26,7 +26,8 @@ import java.util.concurrent.TimeUnit;
 /**一个打印请求信息的拦截器*/
 @Component
 public class AuthInterceptor extends BaseInterceptor  {
-    private SeqnoGenerator seqnoGenerator=new SeqnoGenerator();
+    @Autowired
+    SeqnoGenerator seqnoGenerator;
 
     @Resource(name = "normalRedisTemplate")
     RedisTemplate<String,Object> redisTemplate;
@@ -75,7 +76,7 @@ public class AuthInterceptor extends BaseInterceptor  {
 
     /**过于频繁访问的规则：
      * 同一个ip或用户在30秒内访问次数超过60次，则限制访问120秒*/
-    private boolean checkFrequency(HttpServletRequest request) throws Exception{
+    public boolean checkFrequency(HttpServletRequest request) throws Exception{
         String key=request.getRemoteHost();
 
         HttpSession session=request.getSession(false);

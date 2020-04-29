@@ -19,10 +19,10 @@ public class GatewayApp  {
         boolean isExists=false;
         for(String bean:beans){
             if(bean.matches("normalRedisTemplate")){
-                System.out.println("存在1");
+                System.out.println("存在["+bean+"]");
 
             }else if(bean.matches("authInterceptor")){
-                System.out.println("存在2");
+                System.out.println("存在["+bean+"]");
             }
 
         }

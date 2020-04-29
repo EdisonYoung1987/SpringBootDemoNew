@@ -13,8 +13,10 @@ import org.apache.dubbo.rpc.filter.TpsLimitFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,10 +32,14 @@ public class EmployeeMicrosvcs implements I_EmployeeSvcs {
     @Autowired
     AsyncExecutor asyncExecutor;
 
+    @Resource(name = "normalRedisTemplate")
+    RedisTemplate<String,Object> redisTemplate;
+
     @Override
     @SentinelResource(value="findAll",entryType = EntryType.IN,
                  blockHandlerClass = ExceptionUtil.class,blockHandler = "handleException")
     public List<Map<String, Object>> findAll() {
+        redisTemplate.opsForValue().set("service","123");
         logger.info("从网关通过dubbo传递过来的全局流水号：{}", GlobalContext.getContext().getReqId());
         logger.info("开始查询");
         List<Map<String,Object>> emInfos=iEm_infoMapper.findAll();
