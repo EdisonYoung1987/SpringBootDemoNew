@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**配置interceptor和Filter*/
 @EnableRedisHttpSession(
-        maxInactiveIntervalInSeconds = 60,//20分钟 session过期时间 tomcat会覆盖
+        maxInactiveIntervalInSeconds = 20*60,//20分钟 session过期时间 tomcat会覆盖
         redisNamespace = "EDISON.SESSION",
         redisFlushMode = RedisFlushMode.IMMEDIATE //
 )

@@ -83,12 +83,12 @@ public class AuthInterceptor extends BaseInterceptor  {
             Object userCache=session.getAttribute(SystemConstant.USERCACHE_KEY);
             if(userCache!=null){
                 key=((UserCache)userCache).getUserId();
+                System.out.println("当前用户："+key);
             }
         }
         key="auth_fr_"+key;
-        System.out.println(key+" "+redisTemplate);
         long times=redisTemplate.opsForValue().increment(key);//访问次数加一
-        if(times>15){//60比较合适 15用于测试
+        if(times>10){//60比较合适 15用于测试
             redisTemplate.expire(key,120, TimeUnit.SECONDS);//这样被限制之后每次访问都会重新计时限制时间
             return true;
         }

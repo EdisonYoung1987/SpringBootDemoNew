@@ -13,10 +13,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class GatewayApp  {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx= SpringApplication.run(GatewayApp.class);
-        //打印所有bean
+        /*//打印所有bean
         String beans[]=ctx.getBeanDefinitionNames();
 
-        boolean isExists=false;
         for(String bean:beans){
             if(bean.matches("normalRedisTemplate")){
                 System.out.println("存在["+bean+"]");
@@ -25,7 +24,7 @@ public class GatewayApp  {
                 System.out.println("存在["+bean+"]");
             }
 
-        }
+        }*/
 
         System.out.println("Gateway 已启动");
     }

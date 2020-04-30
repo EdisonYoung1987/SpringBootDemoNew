@@ -11,8 +11,8 @@ import java.io.Writer;
 
 public class BaseInterceptor extends HandlerInterceptorAdapter {
     public static void returnJson(HttpServletResponse response, Response resp){
-        response.setHeader("","");
-        response.setHeader("","");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
         PrintWriter writer=null;
         try {
             writer=response.getWriter();
