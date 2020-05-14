@@ -24,6 +24,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     private static Set<String> excludedUrlsSet=new HashSet<>(64);
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("请求路径:"+httpServletRequest.getRequestURI());
         System.out.println("EncryptFilter:执行EncryptFilter开始...");
         try {
             StringBuilder sb=ServletUtil.getRequestBody(httpServletRequest);
@@ -33,11 +34,11 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
             //进行解密 比如登录时采用RSA,key为私钥，其他情况为AES,key为sessionId
             String bodyDecrypted=bodyToDecrypt;
             if(isNeedDecrypt(httpServletRequest)){
-//                System.out.println("EncryptFilter:需要解密");
+                System.out.println("EncryptFilter:需要解密");
                 bodyDecrypted=ServletUtil.stringDecypt(bodyToDecrypt,"xxxrr");
 //                System.out.println("EncryptFilter:解密后内容:"+bodyDecrypted);
             }else{
-//                System.out.println("EncryptFilter:不需要解密");
+                System.out.println("EncryptFilter:不需要解密");
                 filterChain.doFilter(httpServletRequest,httpServletResponse);
                 return;
             }
@@ -110,11 +111,16 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     /**是否需要解密*/
     private boolean isNeedDecrypt(HttpServletRequest request){
         if(!request.getMethod().equalsIgnoreCase("POST")
-            && !request.getMethod().equalsIgnoreCase("GET")){
+                && !request.getMethod().equalsIgnoreCase("GET")){
             return false;
         }
         if(excludedUrlsSet.contains(request.getRequestURI())){
             return false;
+        }
+        for(String url:excludedUrlsSet){
+            if(request.getRequestURI().startsWith(url)){
+                return false;
+            }
         }
         return true;
     }
@@ -125,5 +131,10 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
         //还可以获取本地配置的是否需要加解密的uri
         System.out.println("EncryptFilter:执行EncryptFilter初始化run()完成");
         excludedUrlsSet.add("/pk");//获取密钥的请求url不需要加解密
+        excludedUrlsSet.add("/swagger");
+        excludedUrlsSet.add("/webjars");
+        excludedUrlsSet.add("/favicon");
+        excludedUrlsSet.add("/v2/api-docs");
+
     }
 }
