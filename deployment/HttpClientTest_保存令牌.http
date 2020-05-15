@@ -1,0 +1,73 @@
+######################################################################################################
+#此http client可以保存之前请求的token jwt令牌等信息
+######################################################################################################
+### 注册-新用户2
+POST http://localhost:8001/auth/user/userRegistered
+Content-Type: application/json;charset=UTF-8
+
+{
+  "tell":"edisony",
+  "password":"123456",
+  "type": 2
+}
+
+### 登录-新用户2
+###token存储于{ "data":{ "token":"xxxxxxx"}} 所以是response.body.data.token
+POST http://localhost:8001/auth/user/login
+Content-Type: application/json;charset=UTF-8
+
+{
+  "userName":"edisony",
+  "password":"123456"
+}
+
+> {% client.global.set("uid", response.body.data.token); %}
+
+
+### 获取jwp
+GET http://localhost:8001/auth/user/jwt
+Content-Type: application/json;charset=UTF-8
+uid: {{uid}}
+
+> {% client.global.set("authorization", "Bearer "+ response.body.data.jwp); %}
+
+
+
+###
+GET http://localhost:8001/ucenter/user/getUserInfoByUserNameSimple?userName=1260089843851870210
+Content-Type: application/json;charset=UTF-8
+uid: {{uid}}
+Authorization: {{authorization}}
+
+<> 2020-05-13T052102.200.json
+
+
+###
+POST http://localhost:8001/entrance/entranceHouse/getEntranceHouseInfo?appliId=1260036277367914497
+Content-Type: application/json;charset=UTF-8
+uid: {{uid}}
+Authorization: {{authorization}}
+
+{
+  "appliId": "1260036277367914497"
+}
+
+<> 2020-05-14T092055.401.json
+<> 2020-05-13T022408.500.json
+<> 2020-05-13T022044.200.json
+<> 2020-05-13T021506.500.json
+
+###获取申请列表
+POST http://localhost:8001/entrance/entranceAuditLog/getAppList
+Content-Type: application/json;charset=UTF-8
+uid: {{uid}}
+Authorization: {{authorization}}
+
+{
+  "userName": "",
+  "type": "",
+  "offset": "3",
+  "pageSize": "5"
+}
+###
+
