@@ -6,13 +6,13 @@ POST http://localhost:8001/auth/user/userRegistered
 Content-Type: application/json;charset=UTF-8
 
 {
-  "tell":"edisony",
+  "tell":"15123926999",
   "password":"123456",
   "type": 2
 }
 
 ### 登录-新用户2
-###token存储于{ "data":{ "token":"xxxxxxx"}} 所以是response.body.data.token
+###token存储于{ "data":{ "token":"xxxxxxx"}} 所以是response.body..token
 POST http://localhost:8001/auth/user/login
 Content-Type: application/json;charset=UTF-8
 
@@ -65,8 +65,8 @@ Authorization: {{authorization}}
 
 {
   "userName": "",
-  "type": "",
-  "offset": "3",
+  "type": "0",
+  "offset": "1",
   "pageSize": "5"
 }
 ###
