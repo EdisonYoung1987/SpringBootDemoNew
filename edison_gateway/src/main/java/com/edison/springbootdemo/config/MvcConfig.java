@@ -4,16 +4,20 @@ import com.edison.springbootdemo.aop.EncryptFilter;
 import com.edison.springbootdemo.aop.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.MultipartConfigElement;
 
 /**配置interceptor和Filter*/
 @EnableRedisHttpSession(
@@ -72,5 +76,16 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public EncryptFilter getEncryptFilterBean(){
         return new EncryptFilter();
+    }
+
+    /**文件上传大小限制*/
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //单个文件最大
+        factory.setMaxFileSize(DataSize.ofMegabytes(25)); //25MB
+        /// 设置总上传数据总大小
+        factory.setMaxRequestSize(DataSize.ofMegabytes(100));//100M
+        return factory.createMultipartConfig();
     }
 }

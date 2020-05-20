@@ -1,6 +1,8 @@
 package com.edison.springbootdemo.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +12,7 @@ import java.io.PrintWriter;
 
 @RestController
 public class HelloController {
-    @RequestMapping("/hello")
+    @GetMapping("/hello" )
     public String hello(HttpServletRequest request,HttpServletResponse response){
         System.out.println(request.getCharacterEncoding());
         //请求使用的协议和版本

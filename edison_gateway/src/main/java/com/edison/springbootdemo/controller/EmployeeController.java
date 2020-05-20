@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "sysArea",description ="jjj")
+@Api(tags = "sysArea",value ="jjj")
 @RestController    //@RestContller返回json格式不能用于页面提取数据，如果需要返回数据给页面则使用@Controller注释
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -67,7 +67,7 @@ public class EmployeeController {
         return response;
     }
 
-    @RequestMapping(value = "lockone")
+    @RequestMapping(value = "lockone" ,method =RequestMethod.GET)
     public Response lockOne() throws Exception{
         for(int i=0;i<10;i++) {
             System.out.println(Thread.currentThread().getName()+" 获取流水号:" + seqnoGenerator.getSeqNoFromReis());

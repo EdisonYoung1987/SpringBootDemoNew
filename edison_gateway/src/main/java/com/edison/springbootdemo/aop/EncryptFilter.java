@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**假装加解密*/
@@ -25,23 +26,29 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         System.out.println("请求路径:"+httpServletRequest.getRequestURI());
+        Map<String, String[]> map=httpServletRequest.getParameterMap();
+        Set<String> set=map.keySet();
+        for(String key:set){
+            System.out.println(map.get(key));
+        }
         System.out.println("EncryptFilter:执行EncryptFilter开始...");
         try {
+            if(!isNeedDecrypt(httpServletRequest)){
+                System.out.println("EncryptFilter:不需要解密");
+                filterChain.doFilter(httpServletRequest,httpServletResponse);
+                return;
+            }
+            System.out.println("EncryptFilter:需要解密");
+
             StringBuilder sb=ServletUtil.getRequestBody(httpServletRequest);
             String bodyToDecrypt=sb.toString();
 //            System.out.println("EncryptFilter:解密前body="+bodyToDecrypt);
 
             //进行解密 比如登录时采用RSA,key为私钥，其他情况为AES,key为sessionId
             String bodyDecrypted=bodyToDecrypt;
-            if(isNeedDecrypt(httpServletRequest)){
-                System.out.println("EncryptFilter:需要解密");
-                bodyDecrypted=ServletUtil.stringDecypt(bodyToDecrypt,"xxxrr");
-//                System.out.println("EncryptFilter:解密后内容:"+bodyDecrypted);
-            }else{
-                System.out.println("EncryptFilter:不需要解密");
-                filterChain.doFilter(httpServletRequest,httpServletResponse);
-                return;
-            }
+
+            bodyDecrypted=ServletUtil.stringDecypt(bodyToDecrypt,"xxxrr");
+
 
             //用解密后的内容替换原始request
             WrapperedRequest requestWrapper=new WrapperedRequest(httpServletRequest,bodyDecrypted);
@@ -131,6 +138,7 @@ public class EncryptFilter extends OncePerRequestFilter implements CommandLineRu
         //还可以获取本地配置的是否需要加解密的uri
         System.out.println("EncryptFilter:执行EncryptFilter初始化run()完成");
         excludedUrlsSet.add("/pk");//获取密钥的请求url不需要加解密
+        excludedUrlsSet.add("/file/uploadFiles");//文件上传也不用
         excludedUrlsSet.add("/swagger");
         excludedUrlsSet.add("/webjars");
         excludedUrlsSet.add("/favicon");

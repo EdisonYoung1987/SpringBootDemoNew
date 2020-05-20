@@ -211,6 +211,36 @@
                 <artifactId>sentinel-annotation-aspectj</artifactId>
                 <version>1.7.1</version>
             </dependency>
+            <!--fastDFS 分布式文件存储系统 1.28支持连接池-->
+            <dependency>
+                <groupId>net.oschina.zcx7878</groupId>
+                <artifactId>fastdfs-client-java</artifactId>
+                <version>1.27.0.0</version>
+            </dependency>
+            <!--使用ConfigurationProperties等需要-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>2.1.6.RELEASE</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- lombok 简化开发 @DATA提供get/set方法 而@SLFJ2提供log日志-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.2</version>
+            </dependency>
+            <!--http客户端 CloseableHttpClient 用到-->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.12</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>4.5.12</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
