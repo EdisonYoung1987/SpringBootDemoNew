@@ -96,10 +96,10 @@ public class FastDfsUtil {
 
     /**将前端提交的文件上传到fastDFS
      * @return map.key-原始文件名称  map.value-上传到fastDfs,如果上传失败-返回null*/
-    public static Map<String, String> uploadDfsNet(StorageClient1 storageClient1,MultipartFile multipartFile) {
-        Map<String, String> result = new HashMap<>();
+    public static String uploadDfsNet(StorageClient1 storageClient1,MultipartFile multipartFile) {
         try {
             if (multipartFile == null) {
+                log.info("文件内容为null");
                 return null;
             }
             //得到文件的原始名称
@@ -112,13 +112,12 @@ public class FastDfsUtil {
             //得到文件扩展名
             String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
             String fileId = storageClient1.upload_file1(bytes, ext, null);
+            log.info("上传成功");
 
-            result.put(originalFilename, fileId);
+            return fileId;
         } catch (Exception e) {
             log.error("上传文件异常:", e);
             return null;
         }
-        log.info("上传成功");
-        return result;
     }
 }
