@@ -70,4 +70,29 @@ Authorization: {{authorization}}
   "pageSize": "5"
 }
 ###
+###
+POST http://localhost:8001/entrance/entranceAuditLog/getAppDetail
+Content-Type: application/json;charset=UTF-8
+uid: {{uid}}
+Authorization: {{authorization}}
 
+{
+  "appid": "1240551362855337986",
+  "type": "3"
+}
+
+###
+POST http://localhost:8001/entrance/entranceAuditLog/auditApp
+Content-Type: application/json;charset=UTF-8
+uid: {{uid}}
+Authorization: {{authorization}}
+
+{
+  "appid": "1254252813804806145",
+  "subAppid": "1254253615546015746",
+  "type": "1",
+  "result": "3",
+  "resultMsg": "就是不通过"
+}
+
+###

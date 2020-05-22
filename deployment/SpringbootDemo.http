@@ -11,10 +11,12 @@ GET 127.0.0.1:8080/employee/findAll
 GET 192.168.77.130:8080/employee/findAll
 
 ###
-POST 192.168.77.130:8080/login
+POST localhost:8080/login
 
 {
-    "id":"122"
+    "id":"122",
+    "userId":"123456",
+    "_secret":"123sadfasfasf"
 }
 
 ###

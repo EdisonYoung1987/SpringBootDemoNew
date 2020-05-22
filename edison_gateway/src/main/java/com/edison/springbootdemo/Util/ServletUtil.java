@@ -42,14 +42,19 @@ public class ServletUtil {
         return new StringBuilder(0);
     }
 
-    /**假装对请求体进行解密*/
-    public static String stringDecypt(String stringToDecrypt,String key){
+    /**假装对请求体进行解密-RSA*/
+    public static String decyptRsa(String stringToDecrypt, String key){
 //        return key+":"+stringToDecrypt; //为保证json解析，不添加key了
         return stringToDecrypt.replaceFirst("2","3");
     }
 
-    /**假装对请求体进行加密*/
-    public static String stringEecypt(String stringToDecrypt,String key){
+    /**假装对请求体进行解密-AES*/
+    public static String decyptAes(String stringToDecrypt,String key){
+        return key+stringToDecrypt;
+    }
+
+    /**假装对请求体进行加密-AES*/
+    public static String encyptAes(String stringToDecrypt,String key){
         return key+stringToDecrypt;
     }
 
