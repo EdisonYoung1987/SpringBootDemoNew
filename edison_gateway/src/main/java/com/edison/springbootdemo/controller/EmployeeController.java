@@ -2,13 +2,16 @@ package com.edison.springbootdemo.controller;
 
 import com.edison.springbootdemo.Imicrosvcs.I_EmployeeSvcs;
 import com.edison.springbootdemo.constant.ResponseConstant;
+import com.edison.springbootdemo.constant.SystemConstant;
 import com.edison.springbootdemo.domain.Response;
 import com.edison.springbootdemo.domain.RspException;
+import com.edison.springbootdemo.domain.UserCache;
 import com.edison.springbootdemo.utils.SeqnoGenerator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Session;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcException;
@@ -25,6 +28,7 @@ import java.util.Map;
 @Api(tags = "sysArea",value ="jjj")
 @RestController    //@RestContller返回json格式不能用于页面提取数据，如果需要返回数据给页面则使用@Controller注释
 @RequestMapping("/employee")
+@Slf4j
 public class EmployeeController {
     @Autowired
     SeqnoGenerator seqnoGenerator;
@@ -41,11 +45,18 @@ public class EmployeeController {
     public Response findAll(HttpServletRequest request) throws Exception{
         //检查是否登录
         HttpSession session=request.getSession(false);
+        UserCache userCache=null;
         if(session==null){
             throw new RspException(ResponseConstant.LOGIN_NO_LOGIN);
         }else{
             System.out.println("session="+session);
+            Object obj=session.getAttribute(SystemConstant.USERCACHE_KEY);
+            if(obj==null){
+                throw new RspException(ResponseConstant.LOGIN_NO_LOGIN);
+            }
+            userCache=(UserCache)obj;
         }
+        log.info("当前用户:{}",userCache.getName());
 
         Response response=new Response();
 
