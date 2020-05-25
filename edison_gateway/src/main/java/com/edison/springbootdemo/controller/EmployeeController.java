@@ -49,7 +49,7 @@ public class EmployeeController {
         if(session==null){
             throw new RspException(ResponseConstant.LOGIN_NO_LOGIN);
         }else{
-            System.out.println("session="+session);
+            log.info("session="+session);
             Object obj=session.getAttribute(SystemConstant.USERCACHE_KEY);
             if(obj==null){
                 throw new RspException(ResponseConstant.LOGIN_NO_LOGIN);
@@ -65,7 +65,7 @@ public class EmployeeController {
             em_infoList = employeeSvcs.findAll();
         } catch (RpcException e) {
 
-            System.out.println("远程服务调用失败，检查是否启动该远程服务");
+            log.info("远程服务调用失败，检查是否启动该远程服务");
             response.setStatusCode(ResponseConstant.REMOTE_SERVICE_UNAVAILABLE.getCode());
             response.setRetMessage(ResponseConstant.REMOTE_SERVICE_UNAVAILABLE.getMessage());
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class EmployeeController {
     @RequestMapping(value = "lockone" ,method =RequestMethod.GET)
     public Response lockOne() throws Exception{
         for(int i=0;i<10;i++) {
-            System.out.println(Thread.currentThread().getName()+" 获取流水号:" + seqnoGenerator.getSeqNoFromReis());
+            log.info(Thread.currentThread().getName()+" 获取流水号:" + seqnoGenerator.getSeqNoFromReis());
         }
 //        return Response.error(new Exception("对方不想和你说话并抛出了一个异常"));
         throw  new Exception("对方不想和你说话并抛出了一个异常");

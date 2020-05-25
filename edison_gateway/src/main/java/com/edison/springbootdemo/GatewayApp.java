@@ -1,5 +1,6 @@
 package com.edison.springbootdemo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.core.ApplicationContext;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDubbo
+@Slf4j
 public class GatewayApp  {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx= SpringApplication.run(GatewayApp.class);
@@ -18,14 +20,14 @@ public class GatewayApp  {
 
         for(String bean:beans){
             if(bean.matches("normalRedisTemplate")){
-                System.out.println("存在["+bean+"]");
+                log.info("存在["+bean+"]");
 
             }else if(bean.matches("authInterceptor")){
-                System.out.println("存在["+bean+"]");
+                log.info("存在["+bean+"]");
             }
 
         }*/
 
-        System.out.println("Gateway 已启动");
+        log.info("Gateway 已启动");
     }
 }

@@ -1,5 +1,6 @@
 package com.edison.springbootdemo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +25,7 @@ import java.util.List;
 
 /*@RunWith(SpringRunner.class)
 @SpringBootTest(classes=GatewayApp.class)*/
+@Slf4j
 public class TestFastDFS2 {
     public static void main(String[]args){
         //上传单个文件
@@ -55,11 +57,11 @@ public class TestFastDFS2 {
             //6、执行post请求，获取返回对象HttpResponse
             HttpResponse httpresponse = httpClient.execute(httppost);
             //7、打印返回状态码
-            System.out.println("返回状态码:" + httpresponse.getStatusLine());
+            log.info("返回状态码:" + httpresponse.getStatusLine());
             //8、得到内容对象Entity，服务器端是跳转到一个页面的，所以这里打印html标签
             HttpEntity entityreturn = httpresponse.getEntity();
             //9、利用EntityUtils工具类来处理返回的Entity对象，获得字符串
-            System.out.println("返回值:" + EntityUtils.toString(entityreturn));
+            log.info("返回值:" + EntityUtils.toString(entityreturn));
             //10、关闭连接
             httpClient.close();
         }catch (Exception e){
@@ -95,11 +97,11 @@ public class TestFastDFS2 {
             //6、执行post请求，获取返回对象HttpResponse
             HttpResponse httpresponse = httpClient.execute(httppost);
             //7、打印返回状态码
-            System.out.println("返回状态码:" + httpresponse.getStatusLine());
+            log.info("返回状态码:" + httpresponse.getStatusLine());
             //8、得到内容对象Entity，服务器端是跳转到一个页面的，所以这里打印html标签
             HttpEntity entityreturn = httpresponse.getEntity();
             //9、利用EntityUtils工具类来处理返回的Entity对象，获得字符串
-            System.out.println("返回值:" + EntityUtils.toString(entityreturn));
+            log.info("返回值:" + EntityUtils.toString(entityreturn));
             //10、关闭连接
             httpClient.close();
         }catch (Exception e){

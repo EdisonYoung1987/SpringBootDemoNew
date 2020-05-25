@@ -3,6 +3,7 @@ package com.edison.springbootdemo;
 import com.edison.springbootdemo.config.async.AsyncExecutor;
 import com.edison.springbootdemo.service.MicroSvcsImpl.EmployeeMicrosvcs;
 import com.edison.springbootdemo.utils.DistributeLocker;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=ServiceApp.class)
+@Slf4j
 public class ServiceAppTest {
     @Autowired
     EmployeeMicrosvcs employeeMicrosvcs;
@@ -23,9 +25,9 @@ public class ServiceAppTest {
 
     @Test
     public void test(){
-        System.out.println("test start");
+        log.info("test start");
         employeeMicrosvcs.findAll();
-        System.out.println("test end");
+        log.info("test end");
 
     }
 
@@ -35,15 +37,15 @@ public class ServiceAppTest {
             @Override
             public void run() {
                 String name=Thread.currentThread().getName();
-                System.out.println(name+"开始加锁");
+                log.info(name+"开始加锁");
                 String uuid=distributeLocker.getLock("lockkey",10);
-                System.out.println(name+"获取锁，进入sleep...");
+                log.info(name+"获取锁，进入sleep...");
                 try {
                     Thread.sleep(6000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("释放锁："+distributeLocker.releaseLock("lockkey",uuid));
+                log.info("释放锁："+distributeLocker.releaseLock("lockkey",uuid));
             }
         };
         //将任务提交给异步线程池执行

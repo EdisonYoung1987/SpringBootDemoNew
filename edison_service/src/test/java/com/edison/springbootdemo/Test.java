@@ -1,9 +1,11 @@
 package com.edison.springbootdemo;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.*;
 import java.net.URL;
 import java.util.Enumeration;
-
+@Slf4j
 public class Test {
     public static void main(String[] args) throws Exception {
         ClassLoader cl=Test.class.getClassLoader();
@@ -11,13 +13,13 @@ public class Test {
 
         while(urls.hasMoreElements()) {
             URL url=urls.nextElement();
-            System.out.println(url.getPath());
+            log.info(url.getPath());
             InputStream fi = url.openStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(fi));
 
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                log.info(line);
             }
             br.close();
             fi.close();

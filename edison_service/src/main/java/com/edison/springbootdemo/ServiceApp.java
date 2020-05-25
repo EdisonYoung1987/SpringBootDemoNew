@@ -1,5 +1,6 @@
 package com.edison.springbootdemo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
@@ -13,12 +14,13 @@ import javax.annotation.PostConstruct;
 @MapperScan("com.edison.springbootdemo.mapper") //需要指定mapper地址，不然报错
 @SpringBootApplication(exclude = {WebMvcAutoConfiguration.class})
 @EnableDubbo
+@Slf4j
 public class ServiceApp {
     public static Logger logger= LoggerFactory.getLogger(ServiceApp.class);
     public static void main(String[] args) {
-        System.out.println("ServiceApp starting...");
+        log.info("ServiceApp starting...");
         SpringApplication.run(ServiceApp.class, args);
-        System.out.println("ServiceApp started...");
+        log.info("ServiceApp started...");
     }
     @PostConstruct
     public void init(){

@@ -67,9 +67,9 @@ public class CommentGenerator extends DefaultCommentGenerator {
                                  IntrospectedColumn introspectedColumn) {
         if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
             method.addJavaDocLine("/**获取" + introspectedColumn.getRemarks()+" */");
-//            System.out.println(introspectedColumn.getActualColumnName()+"类型"+introspectedColumn.getFullyQualifiedJavaType()); //返回java.lang.String一类的全路径，可以做处理
-//            System.out.println(introspectedColumn.getActualColumnName()+"类型"+introspectedColumn.getJavaProperty()); //这个是返回java实体类中的field，比如 EM_ID对应emId
-//            System.out.println(introspectedColumn.getActualColumnName()+"类型"+introspectedColumn.));
+//            log.info(introspectedColumn.getActualColumnName()+"类型"+introspectedColumn.getFullyQualifiedJavaType()); //返回java.lang.String一类的全路径，可以做处理
+//            log.info(introspectedColumn.getActualColumnName()+"类型"+introspectedColumn.getJavaProperty()); //这个是返回java实体类中的field，比如 EM_ID对应emId
+//            log.info(introspectedColumn.getActualColumnName()+"类型"+introspectedColumn.));
 
 
         }

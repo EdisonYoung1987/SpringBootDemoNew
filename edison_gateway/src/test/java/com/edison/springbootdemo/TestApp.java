@@ -2,6 +2,7 @@ package com.edison.springbootdemo;
 
 import com.edison.springbootdemo.constant.ResponseConstant;
 import com.edison.springbootdemo.domain.RspException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +25,7 @@ import java.util.Collections;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=GatewayApp.class)
+@Slf4j
 public class TestApp {
     //不存在则设置
     private static final RedisScript<Long> releaseScript=
@@ -36,7 +38,7 @@ public class TestApp {
     public  void testDuplicate(){
         String key="TESTTTT";
         Long ret=redisTemplate.execute(releaseScript, Collections.singletonList(key),1,150);
-        System.out.println(ret);
+        log.info("{}",ret);
 
     }
 }

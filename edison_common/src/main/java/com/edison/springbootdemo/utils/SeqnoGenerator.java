@@ -1,6 +1,7 @@
 package com.edison.springbootdemo.utils;
 
 import com.edison.springbootdemo.constant.SystemConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 /**序号生成器*/
 @Component
+@Slf4j
 public class SeqnoGenerator {
     private static final long SEQ_STEP=5L; //每次从redis获取一批次流水号使用
     private long currNum=0L;
@@ -51,7 +53,7 @@ public class SeqnoGenerator {
         String key="EdisonSeq:"+DateUtil.getFormatDateString(new Date(),"yyyyMMdd");
         long currentStep=redisTemplate.opsForValue().increment(key,SEQ_STEP);
         if(currentStep==SEQ_STEP){//说明是当天第一个获取流水
-            System.out.println("当天第一个获取流水");
+            log.info("当天第一个获取流水");
             redisTemplate.expire(key,48, TimeUnit.HOURS);//为避免时间差异，保留2天
         }
         return currentStep;

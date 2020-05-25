@@ -100,9 +100,9 @@ public class LoginController {
         HttpSession session=request.getSession(false);
         if(session!=null){
             session.invalidate();
-            System.out.println("用户已登出");
+            log.info("用户已登出");
         }else{
-            System.out.println("session为空，用户未登录");
+            log.info("session为空，用户未登录");
         }
         return Response.success(null);
     }

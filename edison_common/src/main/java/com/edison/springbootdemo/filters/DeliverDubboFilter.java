@@ -1,6 +1,7 @@
 package com.edison.springbootdemo.filters;
 
 import com.edison.springbootdemo.context.GlobalContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
 import org.slf4j.Logger;
@@ -15,12 +16,13 @@ import org.springframework.util.StringUtils;
 
 @Activate(group = {"provider","consumer"},order = 0) //表示provider和consumer都要调用该扩展
 //@Activate //无条件激活
+@Slf4j
 public class DeliverDubboFilter implements Filter {
     private static final Logger logger= LoggerFactory.getLogger(DeliverDubboFilter.class);
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        System.out.println("dubbo的DeliverDubboFilter被调用");
+        log.info("dubbo的DeliverDubboFilter被调用");
         String dubboReqId=RpcContext.getContext().getAttachment(GlobalContext.REQ_ID_KEY);
         String globalReqId=GlobalContext.getContext().getReqId();//获取当前请求的全局id，在web的filter应该设置
 
