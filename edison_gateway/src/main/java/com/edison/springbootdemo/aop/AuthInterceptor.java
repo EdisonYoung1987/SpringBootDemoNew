@@ -86,9 +86,6 @@ public class AuthInterceptor extends BaseInterceptor  {
                 throw new RspException(ResponseConstant.REQUEST_DUPLICATED);
             }
 
-            //将session保存到GlobalContext中
-            GlobalContext.getContext().setSession
-
         }else{//未登录 游客模式
             log.info("当前为游客模式 暂不支持");
             return false;//暂不支持
