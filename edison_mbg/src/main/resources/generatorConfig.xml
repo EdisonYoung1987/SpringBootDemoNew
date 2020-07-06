@@ -45,15 +45,15 @@
             <property name="smallintToInteger" value="true"/> <!--smallint类型的字段是否也要转为Integer-->
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.edison.springbootdemo.domain" targetProject="${target.project.path}">
+        <javaModelGenerator targetPackage="com.ehl.utb.microservice.bean.entity" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.edison.springbootdemo.mapper" targetProject="${target.project.path}">
+        <sqlMapGenerator targetPackage="com.ehl.utb.microservice.mapper" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.edison.springbootdemo.dao"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ehl.utb.microservice.dao"
                              targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -62,10 +62,27 @@
         <!--<table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="EM_INFO" domainObjectName="EmInfo"
+        <!--<table tableName="EM_INFO" domainObjectName="EmInfo"
                                     enableCountByExample="false"
                                     enableDeleteByExample="false"
                                     enableUpdateByExample="false"
-                                    enableSelectByExample="false"></table>
+                                    enableSelectByExample="false"></table>-->
+        <table tableName="T_ITGS_EQUIPMENT_MAN" enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"/>
+        <table tableName="T_ITGS_REGION_MAN" enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"/>
+        <table tableName="T_ITGS_DISTRICT_MAN" enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"/>
+        <table tableName="T_ITGS_ROAD_MAN" enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"/>
+
     </context>
 </generatorConfiguration>
