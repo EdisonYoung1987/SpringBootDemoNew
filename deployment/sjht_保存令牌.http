@@ -6,18 +6,18 @@ POST http://localhost:8001/auth/user/userRegistered
 Content-Type: application/json;charset=UTF-8
 
 {
-  "tell":"15123926999",
+  "tell":"15123926985",
   "password":"123456",
   "type": 2
 }
 
 ### 登录-新用户2
 ###token存储于{ "data":{ "token":"xxxxxxx"}} 所以是response.body..token
-POST http://localhost:8001/auth/user/login
+POST http://localhost:8003/auth/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "userName":"edisony",
+  "userName":"15123926987",
   "password":"123456"
 }
 

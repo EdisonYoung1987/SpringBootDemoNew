@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 /**文件上传的controller，
  * 上传到fastDFS,不提供下载，前端可直接使用http访问文件并下载*/
-@Api(tags = "fileOperation",value ="文件操作")
+@Api(tags = "文件传输模块",value ="文件操作")
 @RestController    //@RestContller返回json格式不能用于页面提取数据，如果需要返回数据给页面则使用@Controller注释
 @RequestMapping("/file")
 @Slf4j
@@ -28,7 +29,9 @@ public class FileOptController {
 
     @ApiOperation(value = "文件上传接口-返回fileId")
     @RequestMapping(value = "/uploadSingleFile",method = RequestMethod.POST)
-    public Response uploadSingleFile(@RequestParam(name = "file") MultipartFile multipartFile){
+    public Response uploadSingleFile(HttpServletRequest request, @RequestParam(name = "file") MultipartFile multipartFile){
+        log.info(request.getHeader("Content-Type"));
+
         String fileId=FastDfsUtil.uploadDfsNet(storageClient1,multipartFile);
         if(fileId!=null){
 

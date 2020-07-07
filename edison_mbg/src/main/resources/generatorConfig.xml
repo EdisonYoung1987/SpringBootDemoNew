@@ -49,11 +49,11 @@
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.ehl.utb.microservice.mapper" targetProject="${target.project.path}">
+        <sqlMapGenerator targetPackage="com.ehl.utb.microservice.mapperXml" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ehl.utb.microservice.dao"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ehl.utb.microservice.mapper"
                              targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -67,22 +67,11 @@
                                     enableDeleteByExample="false"
                                     enableUpdateByExample="false"
                                     enableSelectByExample="false"></table>-->
-        <table tableName="T_ITGS_EQUIPMENT_MAN" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableUpdateByExample="false"
-               enableSelectByExample="false"/>
-        <table tableName="T_ITGS_REGION_MAN" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableUpdateByExample="false"
-               enableSelectByExample="false"/>
-        <table tableName="T_ITGS_DISTRICT_MAN" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableUpdateByExample="false"
-               enableSelectByExample="false"/>
         <table tableName="T_ITGS_ROAD_MAN" enableCountByExample="false"
                enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"/>
+
 
     </context>
 </generatorConfiguration>

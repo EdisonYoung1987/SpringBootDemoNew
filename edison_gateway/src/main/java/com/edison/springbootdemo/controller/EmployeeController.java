@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "sysArea",value ="jjj")
+@Api(tags = "雇员模块")
 @RestController    //@RestContller返回json格式不能用于页面提取数据，如果需要返回数据给页面则使用@Controller注释
 @RequestMapping("/employee")
 @Slf4j

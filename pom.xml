@@ -22,6 +22,8 @@
         <java.version>1.8</java.version>
         <maven.compler.source>1.8</maven.compler.source>
         <maven.compler.target>1.8</maven.compler.target>
+        <!--<skipTests>true</skipTests>--><!--这个打包时会编译测试类生成class文件，但不会运行测试类-->
+        <maven.test.skip>true</maven.test.skip><!--这个打包时都不会编译测试类，也不会运行测试类-->
     </properties>
 
     <modules>

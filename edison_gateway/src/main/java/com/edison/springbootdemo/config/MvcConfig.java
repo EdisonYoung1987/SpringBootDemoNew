@@ -56,7 +56,8 @@ public class MvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/**/error")
                 ;
         if(swagger){
-            interceptorRegistration.excludePathPatterns("/csrf","/swagger**","/webjars/**","/api-docs**","/api-docs**/**","/swagger**/**");
+            interceptorRegistration.excludePathPatterns("/file/**",
+                    "/csrf","/swagger**","/webjars/**","/api-docs**","/api-docs**/**","/swagger**/**");
         }
     }
 

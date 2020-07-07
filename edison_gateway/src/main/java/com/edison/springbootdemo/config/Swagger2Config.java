@@ -26,8 +26,8 @@ public class Swagger2Config {
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.regex("/user.*"))
                 .build()
-                .apiInfo(apiInfo())
-                .enable(enable);
+                .apiInfo(apiInfo());
+//                .enable(enable);
     }
 
     @Bean("客户模块")
