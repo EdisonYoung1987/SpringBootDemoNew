@@ -15,8 +15,9 @@ import java.util.Set;
  */
 public class CommentGenerator extends DefaultCommentGenerator {
     private boolean addRemarkComments = true;
+    private boolean addSwaggerApiProperty=false; //是否增加swagger注解说明
     private static final String EXAMPLE_SUFFIX="Example";
-//    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME="io.swagger.annotations.ApiModelProperty";
+    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME="io.swagger.annotations.ApiModelProperty";
 //    private static final String COMPONENT_CLASS_NAME="org.springframework.stereotype.Repository";
 //    private static final String MAPPER_CLASS_NAME="org.apache.ibatis.annotations.Mapper";
 
@@ -27,6 +28,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
     public void addConfigurationProperties(Properties properties) {
         super.addConfigurationProperties(properties);
         this.addRemarkComments = StringUtility.isTrue(properties.getProperty("addRemarkComments"));
+        this.addSwaggerApiProperty = StringUtility.isTrue(properties.getProperty("addSwaggerApiProperty"));
     }
 
     /**
@@ -44,7 +46,9 @@ public class CommentGenerator extends DefaultCommentGenerator {
                 remarks = remarks.replace("\"","'");
             }
             //给model的字段添加swagger注解
-//            field.addJavaDocLine("@ApiModelProperty(value = \""+remarks+"\")");
+            if(addSwaggerApiProperty) {
+                field.addJavaDocLine("@ApiModelProperty(value = \"" + remarks + "\")");
+            }
         }
     }
 
@@ -53,8 +57,8 @@ public class CommentGenerator extends DefaultCommentGenerator {
     public void addJavaFileComment(CompilationUnit compilationUnit) {
         super.addJavaFileComment(compilationUnit);
         //只在model中添加swagger注解类的导入
-        if(!compilationUnit.isJavaInterface()&&!compilationUnit.getType().getFullyQualifiedName().contains(EXAMPLE_SUFFIX)){
-//            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
+        if(addSwaggerApiProperty && !compilationUnit.isJavaInterface()&&!compilationUnit.getType().getFullyQualifiedName().contains(EXAMPLE_SUFFIX)){
+            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
         }
 //        compilationUnit.addImportedType(new FullyQualifiedJavaType(MAPPER_CLASS_NAME));
 //        compilationUnit.addImportedType(new FullyQualifiedJavaType(COMPONENT_CLASS_NAME));
