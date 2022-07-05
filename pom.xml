@@ -99,7 +99,7 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
 <!--                <version>8.0.12</version>  &lt;!&ndash;这个数据库驱动版本需要自己指定&ndash;&gt;-->
-                <version>5.1.49</version>  <!--这个数据库驱动版本需要自己指定-->
+                <version>8.0.28</version>  <!--这个数据库驱动版本需要自己指定-->
                 <scope>runtime</scope>
             </dependency>
 
