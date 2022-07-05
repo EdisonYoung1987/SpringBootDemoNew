@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
 <!--    <properties resource="generator.properties"/>-->
-    <properties resource="application-dev.properties"/>
+    <properties resource="application-traffic.properties"/>
     <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -13,7 +13,7 @@
         <!-- 为模型生成序列化方法-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <!-- 为生成的Java模型创建一个toString方法 -->
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+<!--        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
         <!--生成mapper.xml时覆盖原文件-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <!-- Mapper注解插件 -->
@@ -46,34 +46,49 @@
             <property name="smallintToInteger" value="true"/> <!--smallint类型的字段是否也要转为Integer-->
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.hwiot.api.dto" targetProject="${target.project.path}">
+        <javaModelGenerator targetPackage="com.cmnit.traffic.passcar.domain.entity.traffic" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.hwiot.api.mapper.mapperXml" targetProject="${target.project.path}">
+        <sqlMapGenerator targetPackage="com.cmnit.traffic.passcar.infrastructure.mapper.traffic" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hwiot.api.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cmnit.traffic.passcar.infrastructure.mapper.traffic"
                              targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!--生成全部表tableName设为%-->
-        <table tableName="%">
-            <!--generatedKey是为了在插入时返回自增主键id的值-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-        </table>
+<!--        <table tableName="%">-->
+<!--            &lt;!&ndash;generatedKey是为了在插入时返回自增主键id的值&ndash;&gt;-->
+<!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+<!--        </table>-->
         <!--<table tableName="EM_INFO" domainObjectName="EmInfo"
                                     enableCountByExample="false"
                                     enableDeleteByExample="false"
                                     enableUpdateByExample="false"
                                     enableSelectByExample="false"></table>-->
-<!--        <table tableName="T_ITGS_ROAD_MAN" enableCountByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableUpdateByExample="false"-->
-<!--               enableSelectByExample="false"/>-->
+    <!--    <table tableName="t_video_information"  enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               />-->
+       <!-- <table tableName="t_push_device"  enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+        />-->
 
+        <table tableName="vehicle_congestion_event"  enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"></table>
+
+        <table tableName="vehicle_event_short_msg"  enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"></table>
 
     </context>
 </generatorConfiguration>

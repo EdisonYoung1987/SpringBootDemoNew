@@ -46,33 +46,39 @@
             <property name="smallintToInteger" value="true"/> <!--smallint类型的字段是否也要转为Integer-->
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.hwiot.api.dto" targetProject="${target.project.path}">
+        <javaModelGenerator targetPackage="com.cmnit.hwiot.core.domain.entity" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.hwiot.api.mapper.mapperXml" targetProject="${target.project.path}">
+        <sqlMapGenerator targetPackage="com.cmnit.hwiot.core.infrastructure.mapper" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hwiot.api.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cmnit.hwiot.core.infrastructure.mapper"
                              targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!--生成全部表tableName设为%-->
-        <table tableName="%">
-            <!--generatedKey是为了在插入时返回自增主键id的值-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-        </table>
+<!--        <table tableName="%">-->
+<!--            &lt;!&ndash;generatedKey是为了在插入时返回自增主键id的值&ndash;&gt;-->
+<!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+<!--        </table>-->
         <!--<table tableName="EM_INFO" domainObjectName="EmInfo"
                                     enableCountByExample="false"
                                     enableDeleteByExample="false"
                                     enableUpdateByExample="false"
                                     enableSelectByExample="false"></table>-->
-<!--        <table tableName="T_ITGS_ROAD_MAN" enableCountByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableUpdateByExample="false"-->
-<!--               enableSelectByExample="false"/>-->
+        <table tableName="iot_gateway_info"  enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               />
+        <table tableName="iot_gateway_device"  enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+        />
 
 
     </context>
