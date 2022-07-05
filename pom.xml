@@ -131,7 +131,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>1.2.47</version>
+                <version>1.2.83</version>
             </dependency>
 
             <!--dubbo 连接框架curator Curator 2.x.x兼容Zookeeper的3.4.x和3.5.x，Curator 3.x.x只兼容Zookeeper 3.5.x-->
