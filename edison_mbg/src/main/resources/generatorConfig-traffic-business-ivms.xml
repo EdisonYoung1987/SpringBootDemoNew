@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
 <!--    <properties resource="generator.properties"/>-->
-    <properties resource="application-traffic-passcar.properties"/>
+    <properties resource="application-traffic-business.properties"/>
     <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -46,15 +46,15 @@
             <property name="smallintToInteger" value="true"/> <!--smallint类型的字段是否也要转为Integer-->
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.cmnit.traffic.passcar.domain.entity.traffic" targetProject="${target.project.path}">
+        <javaModelGenerator targetPackage="com.cmnit.traffic.business.domain.ivms" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.cmnit.traffic.passcar.infrastructure.mapper.traffic" targetProject="${target.project.path}">
+        <sqlMapGenerator targetPackage="com.cmnit.traffic.business.infrastructure.mapper.ivms" targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cmnit.traffic.passcar.infrastructure.mapper.traffic"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cmnit.traffic.business.infrastructure.mapper.ivms"
                              targetProject="${target.project.path}">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -85,7 +85,7 @@
                enableUpdateByExample="false"
                enableSelectByExample="false"></table>-->
 
-        <table tableName="vehicle_traffic_event"  enableCountByExample="false"
+        <table tableName="extdevchantbl"  enableCountByExample="false"
                enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"></table>
