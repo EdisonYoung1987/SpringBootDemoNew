@@ -1,0 +1,2 @@
+GET https://restapi.amap.com/v3/traffic/status/road?key=1c33a3a2a190b798b6e2574376bb3367&name=京珠高速&adcode=410100
+content-Type:application/json

@@ -85,13 +85,13 @@
                enableUpdateByExample="false"
                enableSelectByExample="false"></table>-->
 
-        <table tableName="vb_business_device_stat"  enableCountByExample="false"
+        <table tableName="alarmnotifytbl"  enableCountByExample="false"
                enableDeleteByExample="false"
                enableUpdateByExample="false"
-               enableSelectByExample="false"></table>
-        <table tableName="vb_business_online_stat"  enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableUpdateByExample="false"
-               enableSelectByExample="false"></table>
+               enableSelectByExample="false">
+            <!--使用原始字段名，就不再下划线转驼峰，大小转小写-->
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
     </context>
 </generatorConfiguration>
