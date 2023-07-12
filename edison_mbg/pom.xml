@@ -86,6 +86,36 @@
                 <version>3.14.9</version>
             </dependency>
         <dependency>
+            <groupId>com.ylsf</groupId>
+            <artifactId>ylsf-external-data</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ylsf</groupId>
+            <artifactId>ylsf-device</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ylsf</groupId>
+            <artifactId>ylsf-core</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ylsf</groupId>
+            <artifactId>ylsf-base-info</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ylsf</groupId>
+            <artifactId>ylsf-api-gateway</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ylsf</groupId>
+            <artifactId>ylsf-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>3.9.0</version>
