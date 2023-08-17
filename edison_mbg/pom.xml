@@ -115,6 +115,7 @@
             <artifactId>ylsf-common</artifactId>
             <version>1.0</version>
         </dependency>
+
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
@@ -124,6 +125,11 @@
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>5.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.0.6</version>
         </dependency>
 
     </dependencies>

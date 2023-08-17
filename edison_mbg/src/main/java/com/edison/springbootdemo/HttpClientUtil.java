@@ -1,5 +1,8 @@
 package com.edison.springbootdemo;
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
@@ -15,7 +18,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class HttpClientUtil {
-    public static String clientKey = "1c33a3a2a190b798b6e2574376bb3367";
+    //私人账号
+    public static String clientKey = "5d1bca4f148be1957263ba11a8b8bcce";
+
+    //河南账号
+//    public static String clientKey = "1c33a3a2a190b798b6e2574376bb3367";
     public static String clientsecret = "b1bbaebf1857ad7fa906097b4dfdf2d3";
 
     public static void sendPostRequest(String requestUrl, Map<String, String> headers, String saveFilePath) throws IOException {
@@ -50,14 +57,17 @@ public class HttpClientUtil {
             }
         }else {
 
+            StringBuilder sb=new StringBuilder();
             try (InputStream inputStream = connection.getInputStream();
                  BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
+                    sb.append(line);
                 }
+
             }
+            System.out.println(JSONUtil.toJsonPrettyStr(sb));
         }
 
         responseCode = connection.getResponseCode();
@@ -158,11 +168,81 @@ public class HttpClientUtil {
         return baseUrl;
     }
 
+    //路径规划2.0
+    public static String pathPlanningV5(){
+        String baseUrl="https://restapi.amap.com/v5/direction/driving?parameters";
+//        String baseUrl="http://et-api.amap.com/state/driving";
+        long time=System.currentTimeMillis()/1000;
+
+        Map<String,String> parameters=new HashMap<>();
+        parameters.put("key",clientKey);
+//        parameters.put("clientKey",clientKey);
+        parameters.put("timestamp",""+time);
+        parameters.put("adcode","410000");
+
+        String signature="";
+        try {
+            if(baseUrl.startsWith("http://et-api.amap")) {
+                signature = generateSignature(parameters, clientsecret);
+                parameters.put("digest", signature);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //其他业务参数
+        parameters.put("origin","113.819223,34.888433");
+        parameters.put("destination","113.832212,34.80414");
+        parameters.put("show_fields","polyline");
+        parameters.put("waypoints","[113.820692,34.858425]");
+        parameters.put("strategy","34");
+        parameters.put("origin_type","3");
+
+        baseUrl=generateUrl(baseUrl,parameters);
+        return baseUrl;
+    }
+
+    //路径规划
+    public static String pathPlanningV3(){
+        String baseUrl="https://restapi.amap.com/v3/direction/driving?parameters";
+//        String baseUrl="http://et-api.amap.com/state/driving";
+        long time=System.currentTimeMillis()/1000;
+
+        Map<String,String> parameters=new HashMap<>();
+        parameters.put("key",clientKey);
+//        parameters.put("clientKey",clientKey);
+        parameters.put("timestamp",""+time);
+        parameters.put("adcode","410000");
+
+        String signature="";
+        try {
+            if(baseUrl.startsWith("http://et-api.amap")) {
+                signature = generateSignature(parameters, clientsecret);
+                parameters.put("digest", signature);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //其他业务参数
+        parameters.put("origin","114.397894,36.222233");
+        parameters.put("destination","113.99773,35.325685");
+        parameters.put("extensions","base");
+//        parameters.put("waypoints","[113.833991,34.829776;113.833411,34.82666;113.832483,34.821698]");
+        parameters.put("strategy","19");
+        parameters.put("origin_type","3");
+
+        baseUrl=generateUrl(baseUrl,parameters);
+        return baseUrl;
+    }
+
 
 
     public static void main(String[] args) throws IOException {
 //        String url =getListEventUrl();//事件接口
-        String url=getRoadTrafficUrl(); //路况查询
+//        String url=getRoadTrafficUrl(); //路况查询
+//        String url=pathPlanningV5(); //路劲规划
+        String url=pathPlanningV3(); //路劲规划
 
         Map<String,String> headers=new HashMap<>();
         HttpClientUtil.sendPostRequest(url, headers,"d:\\tmp\\gd.zip");

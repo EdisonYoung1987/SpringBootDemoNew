@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**端口扫描*/
 public class PortDetectUtil {
     public static void main(String[] args) {
-        String host="183.56.136.34";
+        String host="218.29.139.39";
         ThreadPoolExecutor executor=new ThreadPoolExecutor(100,150,10000, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<>(2000));
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
 
@@ -41,7 +41,7 @@ public class PortDetectUtil {
                 System.out.println(port+"  端口开启");
             } catch (IOException e) {
                 if("connect timed out".equals(e.getMessage())) {
-                    System.out.println(port+"  端口超时");
+//                    System.out.println(port+"  端口超时");
                     return false;
                 }else{
                     System.out.println(port+"  端口不通："+e.getMessage());
